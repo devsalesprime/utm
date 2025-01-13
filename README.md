@@ -67,6 +67,6 @@ whats03_dia_10
 
 Dentro do documento do Excel, a maior parte dessas utms fixas já estão preenchidas, as personalizáveis, existe um campo para colocá-las.
 
-ACESSAR DOCUMENTO AQUI
+<a href="https://salesprime.com.br/utm/">ACESSAR DOCUMENTO AQUI</a>
 
 É importante colocar o nome de quem gerou o link no primeiro campo, e um comentário do motivo da utm. Na parte do link, é o url principal que será acessado.
