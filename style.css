@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&family=Shrikhand&display=swap');
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo preto com opacidade */
+}
+.modal.show .modal-dialog {
+    pointer-events: auto;
+}
+.modal-backdrop.show {
+    opacity: 0.5;
+}
+
+body {
+    font-size: 0.8rem;
+}
+
+.p5 {
+    width: 12rem !important;
+}
+
+.help-text {
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    line-height: 1.66;
+    text-align: left;
+    margin: 4px 14px 0px;
+}
+
+/* Estilos adicionais para o modo claro e escuro */
+.light-input {
+    background-color: white !important;
+    color: black !important;
+}
+
+.dark-input {
+    background-color: #343a40 !important;
+    color: white !important;
+}
+
+.light-placeholder::placeholder {
+    color: #6c757d !important;
+}
+
+.dark-placeholder::placeholder {
+    color: #adb5bd !important;
+}
+
+/* Main container */
+.theme-switch-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #8c8c91;
+    border-radius: 30px;
+    border: 2px solid #ccc;
+    padding: 10px;
+    width: 40px;
+    height: 150px;
+    position: relative;
+    /* Para controlar o background animado */
+    overflow: hidden;
+    /* Esconde qualquer coisa fora do container */
+    text-align: center;
+}
+
+/* Background animado */
+.theme-switch-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: #fff;
+    border-radius: 30px;
+    transform: translateY(0);
+    /* Posição inicial (Light) */
+    transition: transform 0.4s ease-in-out;
+    /* Animação suave */
+    z-index: 0;
+    /* Atrás dos botões */
+}
+
+/* Opções */
+.theme-switch-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    padding: 0px 0;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+    /* Acima do fundo animado */
+}
+
+.light-option {
+    color: #cfcfcf;
+    margin-top: -5px;
+}
+
+.dark-option {
+    color: #ffffff;
+    padding: 15px 0 0 0;
+}
+
+/* Ícones */
+.theme-switch-option i {
+    font-size: 1.5rem;
+}
+
+/* Texto ativo */
+.theme-switch-option.active {
+    color: #524e4e;
+}
+
+.theme-link {
+    text-decoration: none;
+  }
+  
+.light-link {
+    color: #212529 !important;
+}
+
+.dark-link {
+    color: #f8f9fa !important;
+}
+.light-link:hover, .dark-link:hover {
+    text-decoration: underline;
+  }
+
+/* Movimento do fundo */
+.theme-switch-container.light-active .theme-switch-bg {
+    transform: translateY(0);
+    /* Fundo no topo (Light) */
+}
+
+.theme-switch-container.dark-active .theme-switch-bg {
+    transform: translateY(100%);
+    /* Fundo embaixo (Dark) */
+}
+
+a {
+    font-size: 0.8rem;
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.copy-icon {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+/* Media query para telas pequenas */
+@media (max-width: 768px) {
+    .theme-switch-container {
+        flex-direction: row;
+        width: 150px;
+        height: 40px;
+    }
+
+    .theme-switch-bg {
+        height: 100%;
+        width: 50%;
+        transform: translateX(0);
+        transition: transform 0.4s ease-in-out;
+    }
+
+    .theme-switch-container.light-active .theme-switch-bg {
+        transform: translateX(0);
+    }
+
+    .theme-switch-container.dark-active .theme-switch-bg {
+        transform: translateX(100%);
+    }
+
+    .theme-switch-option {
+        flex-direction: row;
+        padding: 0;
+    }
+
+    .light-option {
+        margin-top: 0;
+        padding-right: 0;
+    }
+
+    .dark-option {
+        padding: 0 0 0 20px;
+    }
+
+    .fixed-top {
+        position: relative;
+    }
+
+    .mt-5 {
+        margin-top: 0;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 1rem;
+    }
+
+    td {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        position: relative;
+    }
+
+    td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #ccc;
+        /* Espaçamento entre o label e o conteúdo */
+    }
+
+}
