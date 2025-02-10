@@ -13,18 +13,38 @@ if (!isset($_SESSION['username'])) {
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="language" content="pt-BR">
     <title>Gerador de UTM</title>
+    <meta name="description" content="Gerador de UTMs da equipe Sales Prime">
+    <meta name="robots" content="none">
+    <meta name="author" content="Rugemtugem">
+    <meta name="keywords" content="#geradordeutm #utm #salesprime">
+
+    <meta property="og:type" content="page">
+    <meta property="og:url" content="https://salesprime.com.br/utm/">
+    <meta property="og:title" content="Gerador de UTM">
+    <meta property="og:image" content="https://salesprime.com.br/wp-content/uploads/2024/09/thumbnail-sales.jpg">
+    <meta property="og:description" content="Gerador de UTMs da equipe Sales Prime">
+
+    <meta property="article:author" content="Rugemtugem">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:title" content="Gerador de UTM">
+    <meta name="twitter:creator" content="@">
+    <meta name="twitter:description" content="Gerador de UTMs da equipe Sales Prime">
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="style.css?v15" rel="stylesheet">
     <script src="script.js?v15"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Jquery JS -->
+    <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
 </head>
 
 <body>
-    <div class="p-3 fixed-top z-0 mt-5" style="z-index: 0!important;">
+    <div class="p-3 fixed-top mt-5" style="width: 10%;">
         <div id="themeSwitch" class="theme-switch-container light-active">
             <div class="theme-switch-bg"></div>
             <div class="theme-switch-option light-option active">
@@ -76,7 +96,12 @@ if (!isset($_SESSION['username'])) {
                     <span class="input-group-text p5" id="custom_name"><i class="bi bi-pencil me-1"></i> Nome Personalizado:</span>
                     <input type="text" class="form-control theme-input" placeholder="Nome Personalizado da url encurtada (opcional)" aria-label="custom_name" aria-describedby="custom_name" id="custom_name" name="custom_name">
                 </div>
-                <button type="submit" class="btn btn-dark border-light">Gerar UTM</button>
+                <button type="submit" class="btn btn-dark border-light mb-3">Gerar UTM</button>
+                <p>
+                    <a data-bs-toggle="collapse" href="#sobreUTM" class="theme-link" role="button" aria-expanded="false" aria-controls="sobreUTM" onclick="this.querySelector('i').classList.toggle('bi-caret-down-fill'); this.querySelector('i').classList.toggle('bi-caret-right-fill');">
+                        <i class="bi bi-caret-right-fill"></i> Sobre links de UTM
+                    </a>
+                </p>
             </form>
         </div>
         <!-- Formulário para mobile -->
@@ -115,6 +140,78 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit" class="btn btn-dark border-light">Gerar UTM</button>
             </form>
         </div>
+        <!-- Mostra texto sobre UTMs -->
+        <div class="collapse mt-3" id="sobreUTM">
+            <div class="card card-body">
+                <span class="link-dark"> link UTM é um tipo de URL que inclui parâmetros que identificam a fonte, o meio, a campanha, o termo e o conteúdo de uma visita ao site. Ele é usado para rastrear a eficácia de campanhas de marketing e determinar quais canais estão direcionando mais tráfego para um site.</span>
+                <table class="table table-bordered table-hover mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Propósito</th>
+                            <th>Exemplos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="utm-referencia">utm_source</span></td>
+                            <td>A utm SOURCE é preenchida no tráfego de forma automática. Portanto, no orgânico será utilizado o mesmo padrão que é usado pela META e pelo GOOGLE. Essas utms serão:</td>
+                            <td><span class="utm-referencia">ig = Instagram</span>
+                                <span class="utm-referencia">fb = Facebook</span>
+                                <span class="utm-referencia">msg = Mensagem do Facebook</span>
+                                <span class="utm-referencia">adwords = Anúncios do Google</span>
+                                <span class="utm-referencia">in = LinkedIn</span>
+                                <span class="utm-referencia">email = E-mails</span>
+                                <span class="utm-referencia">yt = YouTube</span>
+                                <span class="utm-referencia">cpc = Anúncios do Google</span>
+                                <span class="utm-referencia">plat = Plataforma Sou Prosperus</span>
+                                <span class="utm-referencia">wpp = WhatsApp</span>
+                                <span class="utm-referencia">og = Orgânico</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="utm-referencia">utm_medium</span></td>
+                            <td>Assim como a SOURCE, a MEDIUM também é preenchida de forma automática pela META e GOOGLE. Portanto também iremos seguir a nomenclatura própria. Somente se atentar para os pontos: a) Precisa-se começar com caractere maiúsculo. b) os espaços precisam ser preenchidos por "_".</td>
+                            <td><span class="utm-referencia">Instagram_Reels</span>
+                                <span class="utm-referencia">Linkedin_Bio</span>
+                                <span class="utm-referencia">Instagram_Feed</span>
+                                <span class="utm-referencia">Linkedin_Msg</span>
+                                <span class="utm-referencia">Instagram_Story</span>
+                                <span class="utm-referencia">Email_Mkt</span>
+                                <span class="utm-referencia">Instagram_Bio</span>
+                                <span class="utm-referencia">Email_News</span>
+                                <span class="utm-referencia">Instagram_Transmissao</span>
+                                <span class="utm-referencia">Email_Promo</span>
+                                <span class="utm-referencia">Instagram_Post</span>
+                                <span class="utm-referencia">Email_Remarketing</span>
+                                <span class="utm-referencia">Youtube_Video</span>
+                                <span class="utm-referencia">Plataforma_Banner</span>
+                                <span class="utm-referencia">Youtube_Shorts</span>
+                                <span class="utm-referencia">Plataforma_Acao</span>
+                                <span class="utm-referencia">Linkedin_Post</span>
+                                <span class="utm-referencia">WhatsApp_Mkt</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="utm-referencia">utm_campaign</span></td>
+                            <td>Dentro da utm CAMPAIGN, teremos as informações de qual time está trabalhando aquela utm, tendo as variáveis entre a V4 Company e o time de marketing da Sales Prime, seguido do tipo de evento e ação que será trabalhado, por exemplo, lançamento, perpétuo, venda sem sino, imersão, prosperidade real, entre outros. Ainda na mesma UTM, seguimos com o nome dessa ação/momento, o mês em que será trabalhado, se é inbound ou outbound, o nome do perfil que será trabalhado, por exemplo, Dani Martins, Sales Prime, Claudio Rosa e outros, e o período em que a ação está, se é open to cart, captação, etc.
+                                A nomenclatura segue, obrigatoriamente, sendo preenchida no modelo abaixo.
+                                Importante ressaltar que todo espaço entre palavras precisa ser preenchido com "_", não deve ser colocado acento ou caractere especial, tudo precisa estar preenchido entre colchetes e, necessariamente, precisa começar com caractere maiúsculo.
+                            </td>
+                            <td><span class="utm-referencia">[Time][Evento][Nome_Do_Evento][Mes][In/Outbound][Perfil][Periodo]</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="utm-referencia">utm_term</span></td>
+                            <td>A utm TERM é a única utm que será personalizável, pois é onde será detalhado por qual tarefa veio o contato. Porém ainda segue um padrão de:
+                                resumo_dia_00 (resumo: um breve resumo de, no máximo, três palavras explicando o que é aquela tarefa, seguido da palavra dia, seguido do dia em que foi feito aquela ação.
+                                Por exemplo: Em um dia serão enviadas 3 mensagens no WhatsApp, logo, a utm TERM será
+                            </td>
+                            <td><span class="utm-referencia">whats01_dia_10</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <h2 class="mt-5">Histórico de URLs</h2>
         <div class="row mb-3">
             <div class="col-md-6 mb-2">
@@ -152,118 +249,117 @@ if (!isset($_SESSION['username'])) {
                     $query = $pdo->query("SELECT * FROM urls ORDER BY generation_date DESC");
                     while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                         // Gerar a URL do QR Code
-                        $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=' . urlencode("https://salesprime.com.br/utm/" . $row['shortened_url']);
+                        $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=1500x1500&data=' . urlencode("https://salesprime.com.br/utm/" . $row['shortened_url']);
 
                         // Formatar a data para o formato dia-mês-ano hora:minutos
                         $formattedDate = date('d-m-Y H:i', strtotime($row['generation_date']));
 
                         // Exibir a linha da tabela com os dados da URL
                         echo "<tr>
-                    <td data-label='QR Code' class='text-center align-middle'>
-                        <span data-bs-toggle='tooltip' title='Clique para abrir o QRCode'>
-                            <img src='" . $qrCodeUrl . "' alt='QR Code' style='width: 50px; height: 50px; cursor: pointer;' data-bs-toggle='modal' data-bs-target='#qrModal" . $row['shortened_url'] . "'>
-                        </span>
-                        <div class='modal fade' id='qrModal" . $row['shortened_url'] . "' tabindex='-1' aria-hidden='true'>
-                            <div class='modal-dialog modal-dialog-centered'>
-                                <div class='modal-content'>
-                                    <div class='modal-header'>
-                                        <h5 class='modal-title'>QR Code</h5>
-                                        <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                                    </div>
-                                    <div class='modal-body text-center'>
-                                        <div style='position: relative; display: inline-block;'>
-                                            <img id='qrCodeImage" . $row['shortened_url'] . "' src='" . $qrCodeUrl . "' alt='QR Code' style='width: 300px; height: 300px;'>
-                                            <img id='logoOverlay" . $row['shortened_url'] . "' src='' alt='Logo' style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; display: none;'>
+                        <td data-label='QR Code' class='text-center align-middle'>
+                            <span data-bs-toggle='tooltip' title='Clique para abrir o QRCode'>
+                                <img src='" . $qrCodeUrl . "' alt='QR Code' style='width: 50px; height: 50px; cursor: pointer;' data-bs-toggle='modal' data-bs-target='#qrModal" . $row['shortened_url'] . "'>
+                            </span>
+                            <div class='modal fade' id='qrModal" . $row['shortened_url'] . "' tabindex='-1' aria-hidden='true'>
+                                <div class='modal-dialog modal-dialog-centered'>
+                                    <div class='modal-content'>
+                                        <div class='modal-header'>
+                                            <h5 class='modal-title'>QR Code</h5>
+                                            <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
                                         </div>
-                                        <div class='mt-3'>
-                                            <label for='logoSelect" . $row['shortened_url'] . "'>Escolha uma logo para aplicar no QR Code:</label>
-                                            <select id='logoSelect" . $row['shortened_url'] . "' class='form-select mt-2' onchange='applyLogo(\"" . $row['shortened_url'] . "\")'>
-                                                <option value=''>Nenhuma</option>
-                                                <option value='images/logo_prosperus_club.png'>Logo Prosperus Club</option>
-                                                <option value='images/logo_sales_prime.png'>Logo Sales Prime</option>
-                                            </select>
-                                        </div>
-                                        <div class='mt-3'>
-                                            <button class='btn btn-dark border-light' onclick='downloadQRCodeWithLogo(\"" . $row['shortened_url'] . "\", \"https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=" . urlencode("https://salesprime.com.br/utm/" . $row['shortened_url']) . "\")'>
-                                                <i class='bi bi-download' aria-hidden='true'></i> Baixar QRCode
-                                            </button>
-                                        </div>
-                                        <script>
-                                            function downloadQRCodeWithLogo(shortenedUrl, qrCodeUrl) {
-                                                var logo = document.getElementById('logoSelect' + shortenedUrl).value;
-                                                var canvas = document.createElement('canvas');
-                                                var context = canvas.getContext('2d');
-                                                var qrImage = new Image();
-                                                qrImage.crossOrigin = 'Anonymous';
-                                                qrImage.onload = function() {
-                                                    canvas.width = qrImage.width;
-                                                    canvas.height = qrImage.height;
-                                                    context.drawImage(qrImage, 0, 0);
-                                                    if (logo) {
-                                                        var logoImage = new Image();
-                                                        logoImage.crossOrigin = 'Anonymous';
-                                                        logoImage.onload = function() {
-                                                            var logoSize = canvas.width * 0.2; // 20% do tamanho do QR Code
-                                                            var x = (canvas.width - logoSize) / 2;
-                                                            var y = (canvas.height - logoSize) / 2;
-                                                            context.drawImage(logoImage, x, y, logoSize, logoSize);
+                                        <div class='modal-body text-center'>
+                                            <div style='position: relative; display: inline-block;'>
+                                                <img id='qrCodeImage" . $row['shortened_url'] . "' src='" . $qrCodeUrl . "' alt='QR Code' style='width: 300px; height: 300px;'>
+                                                <img id='logoOverlay" . $row['shortened_url'] . "' src='' alt='Logo' style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; display: none;'>
+                                            </div>
+                                            <div class='mt-3'>
+                                                <label for='logoSelect" . $row['shortened_url'] . "'>Escolha uma logo para aplicar no QR Code:</label>
+                                                <select id='logoSelect" . $row['shortened_url'] . "' class='form-select mt-2' onchange='applyLogo(\"" . $row['shortened_url'] . "\")'>
+                                                    <option value=''>Nenhuma</option>
+                                                    <option value='images/logo_prosperus_club.png'>Logo Prosperus Club</option>
+                                                    <option value='images/logo_sales_prime.png'>Logo Sales Prime</option>
+                                                </select>
+                                            </div>
+                                            <div class='mt-3'>
+                                                <button class='btn btn-dark border-light' onclick='downloadQRCodeWithLogo(\"" . $row['shortened_url'] . "\", \"https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=" . urlencode("https://salesprime.com.br/utm/" . $row['shortened_url']) . "\")'>
+                                                    <i class='bi bi-download' aria-hidden='true'></i> Baixar QRCode
+                                                </button>
+                                            </div>
+                                            <script>
+                                                function downloadQRCodeWithLogo(shortenedUrl, qrCodeUrl) {
+                                                    var logo = document.getElementById('logoSelect' + shortenedUrl).value;
+                                                    var canvas = document.createElement('canvas');
+                                                    var context = canvas.getContext('2d');
+                                                    var qrImage = new Image();
+                                                    qrImage.crossOrigin = 'Anonymous';
+                                                    qrImage.onload = function() {
+                                                        canvas.width = 1000;
+                                                        canvas.height = 1000;
+                                                        context.drawImage(qrImage, 0, 0, 1000, 1000);
+                                                        if (logo) {
+                                                            var logoImage = new Image();
+                                                            logoImage.crossOrigin = 'Anonymous';
+                                                            logoImage.onload = function() {
+                                                                var logoSize = canvas.width * 0.25; // 25% do tamanho do QR Code
+                                                                var x = (canvas.width - logoSize) / 2;
+                                                                var y = (canvas.height - logoSize) / 2;
+                                                                context.drawImage(logoImage, x, y, logoSize, logoSize);
+                                                                var link = document.createElement('a');
+                                                                link.href = canvas.toDataURL();
+                                                                link.download = shortenedUrl + '_with_logo.png';
+                                                                link.click();
+                                                            };
+                                                            logoImage.src = logo;
+                                                        } else {
                                                             var link = document.createElement('a');
                                                             link.href = canvas.toDataURL();
-                                                            link.download = shortenedUrl + '_with_logo.png';
+                                                            link.download = shortenedUrl + '.png';
                                                             link.click();
-                                                        };
-                                                        logoImage.src = logo;
-                                                    } else {
-                                                        var link = document.createElement('a');
-                                                        link.href = canvas.toDataURL();
-                                                        link.download = shortenedUrl + '.png';
-                                                        link.click();
-                                                    }
-                                                };
-                                                qrImage.src = qrCodeUrl;
-                                            }
-                                        </script>
+                                                        }
+                                                    };
+                                                    qrImage.src = qrCodeUrl;
+                                                }
+                                            </script>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <script>
-                            function applyLogo(shortenedUrl) {
-                                var logo = document.getElementById('logoSelect' + shortenedUrl).value;
-                                var logoOverlay = document.getElementById('logoOverlay' + shortenedUrl);
-                                if (logo) {
-                                    logoOverlay.src = logo;
-                                    logoOverlay.style.display = 'block';
-                                } else {
-                                    logoOverlay.style.display = 'none';
+                            <script>
+                                function applyLogo(shortenedUrl) {
+                                    var logo = document.getElementById('logoSelect' + shortenedUrl).value;
+                                    var logoOverlay = document.getElementById('logoOverlay' + shortenedUrl);
+                                    if (logo) {
+                                        logoOverlay.src = logo;
+                                        logoOverlay.style.display = 'block';
+                                    } else {
+                                        logoOverlay.style.display = 'none';
+                                    }
                                 }
-                            }
-                        </script>
-                    </td>
-                    <td data-label='Link Original com UTM' class='col-lg-4'>
-                        <a href='" . htmlspecialchars($row['long_url']) . "' target='_blank' class='theme-link' data-bs-toggle='tooltip' title='Copiar'>
-                            " . htmlspecialchars($row['long_url']) . "
-                        </a>
-                        <br><i class='bi bi-clipboard copy-icon' data-bs-toggle='tooltip' title='Copiar' onclick='copyToClipboard(this, \"" . htmlspecialchars($row['long_url']) . "\")'></i>
-                    </td>
-                    <td data-label='Link Encurtado' class='align-middle'>
-                        <a href='/utm/" . $row['shortened_url'] . "' target='_blank' class='theme-link' data-bs-toggle='tooltip' title='Copiar'>
-                            https://salesprime.com.br/utm/" . $row['shortened_url'] . "
-                        </a>
-                        <br><i class='bi bi-clipboard copy-icon' data-bs-toggle='tooltip' title='Copiar' onclick='copyToClipboard(this, \"https://salesprime.com.br/utm/" . $row['shortened_url'] . "\")'></i>
-                    </td>
-                    <td data-label='Clicks' class='text-center align-middle'>" . ($row['clicks'] ?? 0) . "</td>
-                    <td data-label='Excluir' class='text-center align-middle'>
-                        <button class='btn btn-danger btn-sm delete-btn' data-id='" . $row['id'] . "'>
-                            <i class='bi bi-trash'></i>
-                        </button>
-                    </td>
-                    <td data-label='Data da UTM' class='text-center align-middle'>" . $formattedDate . "</td>
-                    <td data-label='Usuário' class='text-center align-middle'>" . htmlspecialchars($row['username']) . "</td>
-                    </tr>";
+                            </script>
+                        </td>
+                        <td data-label='Link Original com UTM' class='col-lg-4'>
+                            <a href='" . htmlspecialchars($row['long_url']) . "' target='_blank' class='link-dark' data-bs-toggle='tooltip' title='Copiar'>
+                                " . htmlspecialchars($row['long_url']) . "
+                            </a>
+                            <br><i class='bi bi-clipboard copy-icon' data-bs-toggle='tooltip' title='Copiar' onclick='copyToClipboard(this, \"" . htmlspecialchars($row['long_url']) . "\")'></i>
+                        </td>
+                        <td data-label='Link Encurtado' class='align-middle'>
+                            <a href='/utm/" . $row['shortened_url'] . "' target='_blank' class='link-dark' data-bs-toggle='tooltip' title='Copiar'>
+                                https://salesprime.com.br/utm/" . $row['shortened_url'] . "
+                            </a>
+                            <br><i class='bi bi-clipboard copy-icon' data-bs-toggle='tooltip' title='Copiar' onclick='copyToClipboard(this, \"https://salesprime.com.br/utm/" . $row['shortened_url'] . "\")'></i>
+                        </td>
+                        <td data-label='Clicks' class='text-center align-middle'>" . ($row['clicks'] ?? 0) . "</td>
+                        <td data-label='Excluir' class='text-center align-middle'>
+                            <button class='btn btn-danger btn-sm delete-btn' data-id='" . $row['id'] . "'>
+                                <i class='bi bi-trash'></i>
+                            </button>
+                        </td>
+                        <td data-label='Data da UTM' class='text-center align-middle'>" . $formattedDate . "</td>
+                        <td data-label='Usuário' class='text-center align-middle'>" . htmlspecialchars($row['username']) . "</td>
+                        </tr>";
                     }
-                    ?>
-                </tbody>
+                    ?> </tbody>
             </table>
         </div>
     </div>
@@ -377,8 +473,9 @@ if (!isset($_SESSION['username'])) {
     <?php else: ?>
         <!-- Conteúdo da página principal para usuários autenticados -->
     <?php endif; ?>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="container mt-4">
+        <!-- Bootstrap Bundle com Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
