@@ -291,7 +291,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-
       // Filtro de número de cliques
       if (clicksValue && match) {
         const clicksCell = row.querySelector('td[data-label="Clicks"]');

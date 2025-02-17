@@ -3,19 +3,36 @@ session_start();
 require 'db.php';
 
 // Verifique se o usuário está autenticado
-if (!isset($_SESSION['username'])) {
+if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
 
-function generateShortCode()
+// Função para gerar código curto
+function generateShortCode($length = 6)
 {
     $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $code = '';
-    for ($i = 0; $i < 6; $i++) {
+    for ($i = 0; $i < $length; $i++) {
         $code .= $chars[random_int(0, strlen($chars) - 1)];
     }
     return $code;
+}
+
+// Função para construir a URL com parâmetros UTM
+function buildUtmUrl($baseUrl, $utmParams)
+{
+    $utmUrl = $baseUrl;
+    $firstParam = true;
+
+    foreach ($utmParams as $key => $value) {
+        if (!empty($value)) {
+            $utmUrl .= ($firstParam ? '?' : '&') . $key . "=" . rawurlencode($value);
+            $firstParam = false;
+        }
+    }
+
+    return $utmUrl;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -25,29 +42,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $utm_medium = trim($_POST['utm_medium']);
     $utm_term = trim($_POST['utm_term']);
     $custom_name = trim($_POST['custom_name']);
-    $username = $_SESSION['username']; // Nome do usuário logado
+    $user_id = $_SESSION['user_id'];
 
     // Validar URL base
     if (!filter_var($website_url, FILTER_VALIDATE_URL)) {
-        die("URL inválida. Por favor insira uma URL válida.");
+        $_SESSION['error'] = "URL inválida. Por favor insira uma URL válida.";
+        header('Location: index.php');
+        exit();
     }
 
     // Construir a URL com UTM
-    $utm_url = $website_url;
-    if (!empty($utm_campaign)) {
-        $utm_url .= (strpos($utm_url, '?') === false ? '?' : '&') . "utm_campaign=" . $utm_campaign;
-    }
-    if (!empty($utm_source)) {
-        $utm_url .= "&utm_source=" . $utm_source;
-    }
-    if (!empty($utm_medium)) {
-        $utm_url .= "&utm_medium=" . $utm_medium;
-    }
-    if (!empty($utm_term)) {
-        $utm_url .= "&utm_term=" . $utm_term;
-    }
-
-    $utm_url = str_replace(['%5B', '%5D'], ['[', ']'], $utm_url);
+    $utmParams = [
+        'utm_campaign' => $utm_campaign,
+        'utm_source' => $utm_source,
+        'utm_medium' => $utm_medium,
+        'utm_term' => $utm_term,
+    ];
+    $utm_url = buildUtmUrl($website_url, $utmParams);
 
     try {
         // Criar tabela se não existir
@@ -56,30 +67,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             original_url TEXT NOT NULL,
             long_url TEXT NOT NULL,
             shortened_url VARCHAR(255) NOT NULL UNIQUE,
-            username VARCHAR(255) NOT NULL,
+            user_id INT NOT NULL,
             generation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )");
-
-        // Criar arquivo .htaccess se não existir
-        if (!file_exists('.htaccess')) {
-            $htaccess = "RewriteEngine On\n";
-            $htaccess .= "RewriteBase /utm/\n";
-            $htaccess .= "RewriteCond %{REQUEST_FILENAME} !-f\n";
-            $htaccess .= "RewriteCond %{REQUEST_FILENAME} !-d\n";
-            $htaccess .= "RewriteRule ^([a-zA-Z0-9]+)$ go.php?code=$1 [L,QSA]\n";
-            file_put_contents('.htaccess', $htaccess);
-        }
 
         // Verificar se o nome personalizado já existe
         if (!empty($custom_name)) {
             $stmt = $pdo->prepare("SELECT id FROM urls WHERE shortened_url = ?");
             $stmt->execute([$custom_name]);
             if ($stmt->rowCount() > 0) {
-                echo "<script>alert('Nome personalizado já está em uso. Por favor escolha outro nome.'); window.history.back();</script>";
-                exit;
-            } else {
-                $short_code = $custom_name;
+                $_SESSION['error'] = "Nome personalizado já está em uso. Por favor escolha outro nome.";
+                header('Location: index.php');
+                exit();
             }
+            $short_code = $custom_name;
         } else {
             // Gerar código curto único
             do {
@@ -90,13 +91,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Inserir na base de dados
-        $stmt = $pdo->prepare("INSERT INTO urls (original_url, long_url, shortened_url, username) VALUES (?, ?, ?, ?)");
-        if ($stmt->execute([$website_url, $utm_url, $short_code, $username])) {
-            header("Location: index.php?success=1&code=" . $short_code);
+        $stmt = $pdo->prepare("INSERT INTO urls (original_url, long_url, shortened_url, user_id) VALUES (?, ?, ?, ?)");
+        if ($stmt->execute([$website_url, $utm_url, $short_code, $user_id])) {
+            $_SESSION['success'] = "URL encurtada com sucesso! Código: " . $short_code;
+            header("Location: index.php");
             exit();
         }
     } catch (PDOException $e) {
-        die("Erro ao processar URL: " . $e->getMessage());
+        error_log("Erro ao processar URL: " . $e->getMessage()); // Log do erro
+        $_SESSION['error'] = "Erro ao processar URL. Por favor, tente novamente.";
+        header('Location: index.php');
+        exit();
     }
 }
-?>
