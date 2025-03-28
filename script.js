@@ -291,6 +291,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
+
       // Filtro de número de cliques
       if (clicksValue && match) {
         const clicksCell = row.querySelector('td[data-label="Clicks"]');
@@ -306,4 +307,41 @@ document.addEventListener("DOMContentLoaded", function () {
   searchInput.addEventListener('keyup', filterTable);
   dateFilter.addEventListener('change', filterTable);
   clicksFilter.addEventListener('input', filterTable);
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+  // Selecionar todos os radios de campaign
+  const campaignRadios = document.querySelectorAll('input[name="utm_campaign"]');
+  const otherContainer = document.getElementById('campaign_other_container');
+  const otherInput = document.getElementById('utm_campaign_other');
+
+  // Verificar se os elementos existem antes de adicionar eventos
+  if (campaignRadios.length > 0 && otherContainer && otherInput) {
+      // Adicionar evento a cada radio button
+      campaignRadios.forEach(radio => {
+          radio.addEventListener('change', function() {
+              if (this.value === 'Outro') {
+                  // Mostrar o container do campo "Outros"
+                  otherContainer.classList.remove('d-none');
+                  otherInput.required = true;
+
+                  // Focar no campo automaticamente
+                  setTimeout(() => {
+                      otherInput.focus();
+                  }, 100);
+              } else {
+                  // Esconder o container do campo "Outros"
+                  otherContainer.classList.add('d-none');
+                  otherInput.required = false;
+              }
+          });
+      });
+
+      // Verificar se "Outros" já está selecionado ao carregar (para casos de edição)
+      const checkedRadio = document.querySelector('input[name="utm_campaign"]:checked');
+      if (checkedRadio && checkedRadio.value === 'Outro') {
+          otherContainer.classList.remove('d-none');
+          otherInput.required = true;
+      }
+  }
 });

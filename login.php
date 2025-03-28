@@ -21,7 +21,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user = $query->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
-            $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['name'];
             header('Location: index.php');
             exit();
@@ -63,7 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $query = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
                 try {
                     $query->execute([$name, $email, $passwordHash]);
-                    $_SESSION['success'] = "Cadastro realizado com sucesso! Faça login.";
+                    // Alterar esta linha:
+$_SESSION['success'] = "Cadastro realizado com sucesso! Faça login.";
+
+// Para:
+$_SESSION['success'] = "Cadastro efetuado com sucesso, favor logar com seu email e senha";
                 } catch (PDOException $e) {
                     $_SESSION['error'] = "Erro ao cadastrar: " . $e->getMessage();
                 }
@@ -73,3 +76,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: index.php');
     exit();
 }
+?>

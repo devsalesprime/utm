@@ -253,3 +253,267 @@ a {
     }
 
 }
+/* Estilos para grupos de botões de seleção */
+.btn-group .btn {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-check:checked + .btn {
+    background-color: #6c757d;
+    color: white;
+    border-color: #6c757d;
+}
+
+/* Responsividade para grupos de botões */
+@media (max-width: 768px) {
+    .btn-group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .btn-group .btn {
+        width: 100%;
+    }
+}
+
+/* Estilo para os botões de seleção */
+.btn-group .btn {
+    flex: 1;
+    white-space: nowrap;
+}
+
+/* Estilo base para todos os botões */
+.btn-group .btn {
+    transition: all 0.3s ease;
+}
+
+/* Cores específicas para cada botão quando selecionado */
+/* YouTube (yt) - Vermelho */
+#source_yt:checked + .btn {
+    background-color: #ff0000 !important;
+    color: white !important;
+    border-color: #ff0000 !important;
+}
+
+/* Instagram (ig) - Gradiente roxo/laranja */
+#source_ig:checked + .btn {
+    background-color: #833ab4 !important;
+    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045) !important;
+    color: white !important;
+    border-color: #833ab4 !important;
+}
+
+/* WhatsApp (wtt) - Verde */
+#source_wtt:checked + .btn {
+    background-color: #25D366 !important;
+    color: white !important;
+    border-color: #25D366 !important;
+}
+
+/* Facebook (fb) - Azul */
+#source_fb:checked + .btn {
+    background-color: #1877f2 !important;
+    color: white !important;
+    border-color: #1877f2 !important;
+}
+
+/* Spotify (spot) - Verde escuro */
+#source_spot:checked + .btn {
+    background-color: #1DB954 !important;
+    color: white !important;
+    border-color: #1DB954 !important;
+}
+
+/* Mensagem (msg) - Azul claro */
+#source_msg:checked + .btn {
+    background-color: #0084ff !important;
+    color: white !important;
+    border-color: #0084ff !important;
+}
+/* Efeito hover mantendo a identidade de cada plataforma */
+#source_yt + .btn:hover { border-color: #ff0000; color: #ff0000; }
+#source_ig + .btn:hover { border-color: #833ab4; color: #833ab4; }
+#source_wtt + .btn:hover { border-color: #25D366; color: #25D366; }
+#source_fb + .btn:hover { border-color: #1877f2; color: #1877f2; }
+#source_spot + .btn:hover { border-color: #1DB954; color: #1DB954; }
+#source_msg + .btn:hover { border-color: #0084ff; color: #0084ff; }
+
+/* Sales Prime */
+#profile_sales:checked + .btn {
+    background-color: #0B1426 !important;
+    color: #F2A011 !important;
+    border-color: #0B1426 !important;
+}
+#profile_sales+ .btn:hover { border-color: #0B1426!important; background-color: #0B1426 !important;color: #F2A011 !important; }
+/* PodVender */
+#profile_podvender:checked + .btn {
+    background-color: #080808 !important;
+    color: #D429FF !important;
+    border-color: #080808 !important;
+}
+#profile_podvender+ .btn:hover { border-color: #080808!important; background-color: #080808 !important;color: #D429FF !important; }
+/* Prosperus Club */
+#profile_prosperus:checked + .btn {
+    background-color: #031A2B !important;
+    color: #FFDA71 !important;
+    border-color: #031A2B !important;
+}
+#profile_prosperus+ .btn:hover { border-color: #031A2B!important; background-color: #031A2B !important;color: #FFDA71 !important; }
+/* Lumière Club */
+#profile_lumiere:checked + .btn {
+    background-color: #0F2C24 !important;
+    color: #BDE6F4 !important;
+    border-color: #0F2C24 !important;
+}
+#profile_lumiere+ .btn:hover { border-color: #0F2C24!important; background-color: #0F2C24 !important;color: #BDE6F4 !important; }
+/* Lumière Club */
+#profile_dani:checked + .btn {
+    background-color: #F9F7EF !important;
+    color: #A673DD !important;
+    border-color: #F9F7EF !important;
+}
+#profile_dani+ .btn:hover { border-color: #F9F7EF!important; background-color: #F9F7EF !important;color: #A673DD !important; }
+
+#campaign_perpetuo:checked + .btn {
+    background-color: #E8F5E9 !important; /* Verde muito claro */
+    color: #2E7D32 !important; /* Verde escuro */
+    border-color: #E8F5E9 !important;
+}
+#campaign_perpetuo + .btn:hover {
+    border-color: #C8E6C9 !important;
+    background-color: #C8E6C9 !important;
+    color: #1B5E20 !important;
+}
+#campaign_conversao:checked + .btn {
+    background-color: #E3F2FD !important; /* Azul claro */
+    color: #0D47A1 !important; /* Azul escuro */
+    border-color: #E3F2FD !important;
+}
+#campaign_conversao + .btn:hover {
+    border-color: #BBDEFB !important;
+    background-color: #BBDEFB !important;
+    color: #0D47A1 !important;
+}
+#campaign_lancamento:checked + .btn {
+    background-color: #FCE4EC !important; /* Rosa claro */
+    color: #AD1457 !important; /* Vinho */
+    border-color: #FCE4EC !important;
+}
+#campaign_lancamento + .btn:hover {
+    border-color: #F8BBD0 !important;
+    background-color: #F8BBD0 !important;
+    color: #880E4F !important;
+}
+#campaign_evento:checked + .btn {
+    background-color: #FFF8E1 !important; /* Amarelo claro */
+    color: #FF8F00 !important; /* Laranja */
+    border-color: #FFF8E1 !important;
+}
+#campaign_evento + .btn:hover {
+    border-color: #FFECB3 !important;
+    background-color: #FFECB3 !important;
+    color: #FF6F00 !important;
+}
+#campaign_outro:checked + .btn {
+    background-color: #F5F5F5 !important; /* Cinza claro */
+    color: #616161 !important; /* Cinza escuro */
+    border-color: #F5F5F5 !important;
+}
+#campaign_outro + .btn:hover {
+    border-color: #EEEEEE !important;
+    background-color: #EEEEEE !important;
+    color: #424242 !important;
+}
+
+/* Garantir que o texto fique legível */
+.btn-check:checked + .btn {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+}
+/* Container do campo "Outros" com transição suave */
+#campaign_other_container {
+    transition: all 0.3s ease;
+}
+
+/* Ajuste para mobile */
+@media (max-width: 768px) {
+    .btn-group {
+        flex-wrap: wrap;
+    }
+    .btn-group .btn {
+        flex: 1 0 45%;
+        margin-bottom: 5px;
+    }
+}
+/* Estilo base para os ícones */
+.icon-animate {
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+/* Animações específicas para cada ícone */
+/* Perpétuo - Infinito girando */
+.btn:hover .bi-infinity {
+    animation: spin 2s linear infinite;
+}
+
+/* Conversão - Seta pulsando */
+.btn:hover .bi-arrow-right-circle {
+    animation: pulse 1.5s ease infinite;
+}
+
+/* Lançamento - Foguete subindo */
+.btn:hover .bi-rocket-takeoff {
+    animation: float 1.5s ease-in-out infinite;
+}
+
+/* Evento - Calendário balançando */
+.btn:hover .bi-calendar-event {
+    animation: swing 1s ease infinite;
+}
+
+/* Outros - Pontos pulsando */
+.btn:hover .bi-three-dots {
+    animation: bounce 1s ease infinite;
+}
+
+/* Definições das animações */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes swing {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+@keyframes bounce {
+    0%, 100% { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% { 
+        transform: translateY(-3px);
+        opacity: 0.8;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .icon-animate {
+        animation: none !important;
+    }
+}

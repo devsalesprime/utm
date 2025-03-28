@@ -1,17 +1,12 @@
 <?php
 session_start();
 require 'db.php';
-
 // Verifique se o usuário está autenticado
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
-}
-
-$user_id = $_SESSION['user_id'];
+$showModal = !isset($_SESSION['username']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="language" content="pt-BR">
@@ -37,11 +32,12 @@ $user_id = $_SESSION['user_id'];
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="style.css?v15" rel="stylesheet">
-    <script src="script.js?v15"></script>
+    <link href="style.css?v21" rel="stylesheet">
+    <script src="script.js?v21"></script>
     <!-- Jquery JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
 </head>
+
 <body>
     <div class="p-3 fixed-top mt-5" style="width: 10%;">
         <div id="themeSwitch" class="theme-switch-container light-active">
@@ -57,74 +53,208 @@ $user_id = $_SESSION['user_id'];
         </div>
     </div>
     <div class="container mt-2">
+        <?php if (isset($_SESSION['username'])): ?>
+            <div class="z-3 float-md-none float-sm-end">
+                <span class="me-3">Usuário: <?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <form action="logout.php" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Sair</button>
+                </form>
+            </div>
+        <?php endif; ?>
         <div class="row">
             <h1 class="text-center">Gerador de UTM</h1>
         </div>
-        <!-- Formulário para desktop -->
-        <div class="container mt-2 d-none d-md-block">
-            <form id="utmForm" action="generate.php" method="POST" class="mt-4">
-                <div class="input-group mb-3">
-                    <span class="input-group-text p5" id="website_url"><i class="bi bi-link me-1"></i> URL do site:</span>
-                    <input type="text" class="form-control theme-input" placeholder="Insira sua url válida" aria-label="website_url" aria-describedby="website_url" id="website_url" name="website_url" required>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text p5" id="utm_campaign"><i class="bi bi-megaphone me-1"></i> UTM Campaing:</span>
-                    <input type="text" class="form-control theme-input" placeholder="Exemplo de UTM Campaing: [Time][Evento][Nome_Do_Evento][Mes][In/Outbound][Perfil][Periodo]" aria-label="utm_campaign" aria-describedby="utm_campaign" id="utm_campaign" name="utm_campaign" required>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text p5" id="utm_source"><i class="bi bi-menu-up me-1"></i> UTM Source:</span>
-                    <input type="text" class="form-control theme-input" placeholder="Define a fonte de tráfego" aria-label="utm_source" aria-describedby="utm_source" id="utm_source" name="utm_source" required>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text p5" id="utm_medium"><i class="bi bi-link-45deg me-1"></i> UTM Medium:</span>
-                    <input type="text" class="form-control theme-input" placeholder="Por exemplo, uma postagem de blog, um vídeo, uma postagem de mídia social, etc" aria-label="utm_medium" aria-describedby="utm_medium" id="utm_medium" name="utm_medium" required>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text p5" id="utm_term"><i class="bi bi-key me-1"></i> UTM Term:</span>
-                    <input type="text" class="form-control theme-input" placeholder="Significa a palavra-chave usada para a promoção, gerando tráfego" aria-label="utm_term" aria-describedby="utm_term" id="utm_term" name="utm_term" required>
-                </div>
-                <div class="input-group mb-3">
-                    <span class="input-group-text p5" id="custom_name"><i class="bi bi-pencil me-1"></i> Nome Personalizado:</span>
-                    <input type="text" class="form-control theme-input" placeholder="Nome Personalizado da url encurtada (opcional)" aria-label="custom_name" aria-describedby="custom_name" id="custom_name" name="custom_name">
-                </div>
-                <button type="submit" class="btn btn-dark border-light mb-3">Gerar UTM</button>
+<!-- Formulário para desktop -->
+<div class="container mt-2">
+    <form id="utmForm" action="generate.php" method="POST" class="mt-4">
+        <div class="input-group mb-3">
+            <span class="input-group-text p5" id="website_url"><i class="bi bi-link me-1"></i> URL do site:</span>
+            <input type="text" class="form-control theme-input" placeholder="Insira sua url válida" aria-label="website_url" aria-describedby="website_url" id="website_url" name="website_url" required>
+        </div>
+        
+        <!-- Novo campo: Selecionar Perfil -->
+        <div class="input-group mb-3">
+            <div class="btn-group w-100" role="group">
+            <span class="input-group-text p5 rounded-end-0"><i class="bi bi-person me-1"></i> Perfil:</span>
+            <input type="radio" class="btn-check" name="profile" id="profile_sales" value="Sales_Prime" checked>
+                <label class="btn btn-outline-secondary" for="profile_sales">Sales Prime</label>
+                
+                <input type="radio" class="btn-check" name="profile" id="profile_podvender" value="Podvender">
+                <label class="btn btn-outline-secondary" for="profile_podvender">Podvender</label>
+                
+                <input type="radio" class="btn-check" name="profile" id="profile_prosperus" value="Prosperus">
+                <label class="btn btn-outline-secondary" for="profile_prosperus">Prosperus</label>
+                
+                <input type="radio" class="btn-check" name="profile" id="profile_lumiere" value="Lumiere">
+                <label class="btn btn-outline-secondary" for="profile_lumiere">Lumière</label>
+                
+                <input type="radio" class="btn-check" name="profile" id="profile_dani" value="Dani_Martins">
+                <label class="btn btn-outline-secondary" for="profile_dani">Dani Martins</label>
+            </div>
+        </div>
+        
+        <!-- Campo UTM Campaign atualizado -->
+        <div class="input-group mb-3">
+    <div class="btn-group w-100 campaign" role="group" aria-label="Campaign type">
+    <span class="input-group-text p5 rounded-end-0"><i class="bi bi-megaphone me-1"></i> UTM Campaing:</span>
+    <!-- Botão Perpétuo -->
+    <input type="radio" class="btn-check" name="utm_campaign" id="campaign_perpetuo" value="Perpetuo" checked>
+    <label class="btn btn-outline-secondary" for="campaign_perpetuo">
+        <i class="bi bi-infinity icon-animate"></i> Perpétuo
+    </label>
+    
+    <!-- Botão Conversão Direta -->
+    <input type="radio" class="btn-check" name="utm_campaign" id="campaign_conversao" value="Conversao_Direta">
+    <label class="btn btn-outline-secondary" for="campaign_conversao">
+        <i class="bi bi-arrow-right-circle icon-animate"></i> Conversão Direta
+    </label>
+    
+    <!-- Botão Lançamento -->
+    <input type="radio" class="btn-check" name="utm_campaign" id="campaign_lancamento" value="Lancamento">
+    <label class="btn btn-outline-secondary" for="campaign_lancamento">
+        <i class="bi bi-rocket-takeoff icon-animate"></i> Lançamento
+    </label>
+    
+    <!-- Botão Evento -->
+    <input type="radio" class="btn-check" name="utm_campaign" id="campaign_evento" value="Evento">
+    <label class="btn btn-outline-secondary" for="campaign_evento">
+        <i class="bi bi-calendar-event icon-animate"></i> Evento
+    </label>
+    
+    <!-- Botão Outros -->
+    <input type="radio" class="btn-check" name="utm_campaign" id="campaign_outro" value="Outro">
+    <label class="btn btn-outline-secondary" for="campaign_outro">
+        <i class="bi bi-three-dots icon-animate"></i> Outros
+    </label>
+    </div>
+</div>
+
+<!-- Campo de texto para "Outros" (inicialmente oculto) -->
+<div id="campaign_other_container" class="input-group mb-3 d-none">
+    <span class="input-group-text p5 rounded-end-0"><i class="bi bi-pencil me-1"></i> Especificar:</span>
+    <input type="text" class="form-control theme-input" id="utm_campaign_other" name="utm_campaign_other" placeholder="Digite o nome da campanha">
+</div>       
+        <!-- Campo UTM Source atualizado para botões -->
+        <div class="input-group mb-3">
+            <div class="btn-group w-100" role="group">
+            <span class="input-group-text p5 rounded-end-0"><i class="bi bi-menu-up me-1"></i> UTM Source:</span>
+                <input type="radio" class="btn-check" name="utm_source" id="source_yt" value="yt" checked>
+                <label class="btn source_yt btn-outline-secondary" for="source_yt"><i class="bi bi-youtube"></i></label>
+                
+                <input type="radio" class="btn-check" name="utm_source" id="source_ig" value="ig">
+                <label class="btn btn-outline-secondary" for="source_ig"><i class="bi bi-instagram"></i></label>
+                
+                <input type="radio" class="btn-check" name="utm_source" id="source_wtt" value="wtt">
+                <label class="btn btn-outline-secondary" for="source_wtt"><i class="bi bi-whatsapp"></i></label>
+                
+                <input type="radio" class="btn-check" name="utm_source" id="source_fb" value="fb">
+                <label class="btn btn-outline-secondary" for="source_fb"><i class="bi bi-facebook"></i></label>
+                
+                <input type="radio" class="btn-check" name="utm_source" id="source_spot" value="spot">
+                <label class="btn btn-outline-secondary" for="source_spot"><i class="bi bi-spotify"></i></label>
+                
+                <input type="radio" class="btn-check" name="utm_source" id="source_msg" value="msg">
+                <label class="btn btn-outline-secondary" for="source_msg"><i class="bi bi-send"></i></label>
+            </div>
+        </div>
+        
+        <!-- Campo UTM Medium atualizado -->
+        <div class="input-group mb-3">
+            <span class="input-group-text p5" id="utm_medium"><i class="bi bi-link-45deg me-1"></i> UTM Medium:</span>
+            <input type="text" class="form-control theme-input" placeholder="Ex: Instagram_Bio, Instagram_Stories, Youtube_Video" aria-label="utm_medium" aria-describedby="utm_medium" id="utm_medium" name="utm_medium" required>
+        </div>
+        
+        <!-- Campo UTM Term atualizado -->
+        <div class="input-group mb-3">
+            <span class="input-group-text p5" id="utm_term"><i class="bi bi-key me-1"></i> UTM Term:</span>
+            <input type="text" class="form-control theme-input" placeholder="Ex: [VIDEO][NOME], [ESTATICO][NOME], [EPISODIO][CONVIDADO], [CONTATO], [RELACIONAMENTO]" aria-label="utm_term" aria-describedby="utm_term" id="utm_term" name="utm_term" required>
+        </div>
+        
+        <!-- Campo Nome Personalizado mantido -->
+        <div class="input-group mb-3">
+            <span class="input-group-text p5" id="custom_name"><i class="bi bi-pencil me-1"></i> Nome Personalizado:</span>
+            <input type="text" class="form-control theme-input" placeholder="Nome Personalizado da url encurtada (opcional)" aria-label="custom_name" aria-describedby="custom_name" id="custom_name" name="custom_name">
+        </div>
+        
+        <button type="submit" class="btn btn-dark border-light mb-3">Gerar UTM</button>
+                <p>
+                    <a data-bs-toggle="collapse" href="#sobreUTM" class="theme-link" role="button" aria-expanded="false" aria-controls="sobreUTM" onclick="this.querySelector('i').classList.toggle('bi-caret-down-fill'); this.querySelector('i').classList.toggle('bi-caret-right-fill');">
+                        <i class="bi bi-caret-right-fill"></i> Sobre links de UTM
+                    </a>
+                </p>
             </form>
         </div>
-        <!-- Formulário para mobile -->
-        <div class="container mt-5 d-md-none">
-            <form action="generate.php" method="POST">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control theme-input" id="website_url_mobile" name="website_url" placeholder="" required>
-                    <label for="website_url_mobile">URL do site:</label>
-                    <p class="help-text">O endereço completo da URL <strong>(ex. https://www.example.com)</strong></p>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control theme-input" id="utm_campaign_mobile" name="utm_campaign" placeholder="" required>
-                    <label for="utm_campaign_mobile">UTM Campaing:</label>
-                    <p class="help-text">UTM Campaing: [Time][Evento][Nome_Do_Evento][Mes][In/Outbound][Perfil][Periodo]</p>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control theme-input" id="utm_source_mobile" name="utm_source" placeholder="" required>
-                    <label for="utm_source_mobile">UTM Source:</label>
-                    <p class="help-text">Define a fonte de tráfego</p>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control theme-input" id="utm_medium_mobile" name="utm_medium" placeholder="" required>
-                    <label for="utm_medium_mobile">UTM Medium:</label>
-                    <p class="help-text">Por exemplo, uma postagem de blog, um vídeo, uma postagem de mídia social, etc</p>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control theme-input" id="utm_term_mobile" name="utm_term" placeholder="" required>
-                    <label for="utm_term_mobile">UTM Term:</label>
-                    <p class="help-text">Significa a palavra-chave usada para a promoção, gerando tráfego</p>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control theme-input" id="custom_name_mobile" placeholder="" name="custom_name">
-                    <label for="custom_name_mobile">Nome Personalizado:</label>
-                    <p class="help-text">Nome Personalizado da URL encurtada (opcional)</p>
-                </div>
-                <button type="submit" class="btn btn-dark border-light">Gerar UTM</button>
-            </form>
+        <!-- Mostra texto sobre UTMs -->
+        <div class="collapse mt-3" id="sobreUTM">
+            <div class="card card-body">
+                <span class="link-dark"> link UTM é um tipo de URL que inclui parâmetros que identificam a fonte, o meio, a campanha, o termo e o conteúdo de uma visita ao site. Ele é usado para rastrear a eficácia de campanhas de marketing e determinar quais canais estão direcionando mais tráfego para um site.</span>
+                <table class="table table-bordered table-hover mt-3">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Parâmetro</th>
+                            <th>Propósito</th>
+                            <th>Exemplos</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="utm-referencia">utm_source</span></td>
+                            <td>A utm SOURCE é preenchida no tráfego de forma automática. Portanto, no orgânico será utilizado o mesmo padrão que é usado pela META e pelo GOOGLE. Essas utms serão:</td>
+                            <td><span class="utm-referencia">ig = Instagram</span>
+                                <span class="utm-referencia">fb = Facebook</span>
+                                <span class="utm-referencia">msg = Mensagem do Facebook</span>
+                                <span class="utm-referencia">adwords = Anúncios do Google</span>
+                                <span class="utm-referencia">in = LinkedIn</span>
+                                <span class="utm-referencia">email = E-mails</span>
+                                <span class="utm-referencia">yt = YouTube</span>
+                                <span class="utm-referencia">cpc = Anúncios do Google</span>
+                                <span class="utm-referencia">plat = Plataforma Sou Prosperus</span>
+                                <span class="utm-referencia">wpp = WhatsApp</span>
+                                <span class="utm-referencia">og = Orgânico</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="utm-referencia">utm_medium</span></td>
+                            <td>Assim como a SOURCE, a MEDIUM também é preenchida de forma automática pela META e GOOGLE. Portanto também iremos seguir a nomenclatura própria. Somente se atentar para os pontos: a) Precisa-se começar com caractere maiúsculo. b) os espaços precisam ser preenchidos por "_".</td>
+                            <td><span class="utm-referencia">Instagram_Reels</span>
+                                <span class="utm-referencia">Linkedin_Bio</span>
+                                <span class="utm-referencia">Instagram_Feed</span>
+                                <span class="utm-referencia">Linkedin_Msg</span>
+                                <span class="utm-referencia">Instagram_Story</span>
+                                <span class="utm-referencia">Email_Mkt</span>
+                                <span class="utm-referencia">Instagram_Bio</span>
+                                <span class="utm-referencia">Email_News</span>
+                                <span class="utm-referencia">Instagram_Transmissao</span>
+                                <span class="utm-referencia">Email_Promo</span>
+                                <span class="utm-referencia">Instagram_Post</span>
+                                <span class="utm-referencia">Email_Remarketing</span>
+                                <span class="utm-referencia">Youtube_Video</span>
+                                <span class="utm-referencia">Plataforma_Banner</span>
+                                <span class="utm-referencia">Youtube_Shorts</span>
+                                <span class="utm-referencia">Plataforma_Acao</span>
+                                <span class="utm-referencia">Linkedin_Post</span>
+                                <span class="utm-referencia">WhatsApp_Mkt</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="utm-referencia">utm_campaign</span></td>
+                            <td>Dentro da utm CAMPAIGN, teremos as informações de qual time está trabalhando aquela utm, tendo as variáveis entre a V4 Company e o time de marketing da Sales Prime, seguido do tipo de evento e ação que será trabalhado, por exemplo, lançamento, perpétuo, venda sem sino, imersão, prosperidade real, entre outros. Ainda na mesma UTM, seguimos com o nome dessa ação/momento, o mês em que será trabalhado, se é inbound ou outbound, o nome do perfil que será trabalhado, por exemplo, Dani Martins, Sales Prime, Claudio Rosa e outros, e o período em que a ação está, se é open to cart, captação, etc.
+                                A nomenclatura segue, obrigatoriamente, sendo preenchida no modelo abaixo.
+                                Importante ressaltar que todo espaço entre palavras precisa ser preenchido com "_", não deve ser colocado acento ou caractere especial, tudo precisa estar preenchido entre colchetes e, necessariamente, precisa começar com caractere maiúsculo.
+                            </td>
+                            <td><span class="utm-referencia">[Time][Evento][Nome_Do_Evento][Mes][In/Outbound][Perfil][Periodo]</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="utm-referencia">utm_term</span></td>
+                            <td>A utm TERM é a única utm que será personalizável, pois é onde será detalhado por qual tarefa veio o contato. Porém ainda segue um padrão de:
+                                resumo_dia_00 (resumo: um breve resumo de, no máximo, três palavras explicando o que é aquela tarefa, seguido da palavra dia, seguido do dia em que foi feito aquela ação.
+                                Por exemplo: Em um dia serão enviadas 3 mensagens no WhatsApp, logo, a utm TERM será
+                            </td>
+                            <td><span class="utm-referencia">whats01_dia_10</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <h2 class="mt-5">Histórico de URLs</h2>
         <div class="row mb-3">
@@ -160,7 +290,7 @@ $user_id = $_SESSION['user_id'];
             <tbody>
                 <?php
                 // Consulta para obter todas as URLs ordenadas pela data de geração em ordem decrescente
-                $query = $pdo->query("SELECT * FROM urls WHERE user_id = $user_id ORDER BY generation_date DESC");
+                $query = $pdo->query("SELECT * FROM urls ORDER BY generation_date DESC");
                 while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
                 // Gerar a URL do QR Code
                 $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=1500x1500&data=' . urlencode("https://salesprime.com.br/utm/" . $row['shortened_url']);
@@ -278,7 +408,105 @@ $user_id = $_SESSION['user_id'];
             </table>
         </div>
     </div>
-    <!-- Bootstrap Bundle com Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <?php if ($showModal): ?>
+        <script>
+            // Inicializa e exibe o modal
+            document.addEventListener('DOMContentLoaded', function() {
+                var loginModal = new bootstrap.Modal(document.getElementById('loginModal'), {
+                    backdrop: 'static',
+                    keyboard: false
+                });
+                loginModal.show();
+            });
+        </script>
+        <!-- Modal de Login -->
+        <div class="modal" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">Autenticação do usuário</h5>
+                    </div>
+                    <div class="modal-body">
+                        <?php if (isset($_SESSION['error'])): ?>
+                            <div class="alert alert-danger">
+                                <?php echo $_SESSION['error'];
+                                unset($_SESSION['error']); ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php if (isset($_SESSION['success'])): ?>
+                            <div class="alert alert-success">
+                                <?php echo $_SESSION['success'];
+                                unset($_SESSION['success']); ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <!-- Abas de Navegação -->
+                        <ul class="nav nav-tabs" id="loginTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">Login</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="false">Cadastro</button>
+                            </li>
+                        </ul>
+
+                        <!-- Conteúdo das Abas -->
+                        <div class="tab-content" id="loginTabContent">
+                            <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                                <!-- Formulário de Login -->
+                                <form action="login.php" method="POST" class="mt-3">
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Senha</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <div class="p-2">
+                                            <button type="submit" name="login" class="btn btn-light">Entrar</button>
+                                        </div>
+                                        <div class="ms-auto p-2">
+                                            <a href="https://salesprime.com.br" class="btn btn-danger ms-auto">Sair</a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                <!-- Formulário de Cadastro -->
+                                <form action="login.php" method="POST" class="mt-3">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nome</label>
+                                        <input type="text" class="form-control" id="name" name="name" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input type="email" class="form-control" id="email" name="email" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label">Senha</label>
+                                        <input type="password" class="form-control" id="password" name="password" required>
+                                        <p class="small fw-light">Verifique se a senha tem pelo menos 8 caracteres</p>
+                                    </div>
+                                    <div class="d-flex mb-3">
+                                        <div class="p-2"><button type="submit" name="register" class="btn btn-light">Cadastrar</button></div>
+                                        <div class="ms-auto p-2"><a href="https://salesprime.com.br" class="btn btn-danger ms-auto">Sair</a></div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <!-- Remover os botões de fechar -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+        <!-- Bootstrap Bundle com Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>
