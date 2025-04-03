@@ -214,7 +214,7 @@ a {
     }
 
     .mt-5 {
-        margin-top: 0;
+        margin-top: 0!important;
     }
 
     table,
@@ -516,4 +516,11 @@ a {
     .icon-animate {
         animation: none !important;
     }
+}
+#utmForm:has(.disabled-field:disabled) {
+    cursor: not-allowed;
+}
+
+.disabled-field:disabled {
+    cursor: not-allowed;
 }
