@@ -3,11 +3,14 @@ session_start();
 require 'db.php';
 
 function validateEmail($email) {
+    // Verifica se o email termina com @salesprime.com.br
+    if (!preg_match('/@salesprime\.com\.br$/', $email)) {
+        return false;
+    }
     return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
 function validatePassword($password) {
-    // Verifique se a senha tem pelo menos 8 caracteres
     return strlen($password) >= 8;
 }
 
@@ -21,7 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $user = $query->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
+            if (!$user['is_approved']) {
+                $_SESSION['error'] = "Sua conta ainda não foi aprovada pelo administrador.";
+                header('Location: index.php');
+                exit();
+            }
             $_SESSION['username'] = $user['name'];
+            $_SESSION['is_admin'] = $user['is_admin'];
             header('Location: index.php');
             exit();
         } else {
@@ -39,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (!$user) {
             $_SESSION['login_attempts']++;
         } else {
-            $_SESSION['login_attempts'] = 0; // Redefine após login bem-sucedido
+            $_SESSION['login_attempts'] = 0;
         }
 
     } elseif (isset($_POST['register'])) {
@@ -48,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $password = $_POST['password'];
 
         if (!validateEmail($email)) {
-            $_SESSION['error'] = "Email inválido";
+            $_SESSION['error'] = "Email inválido. Use apenas email @salesprime.com.br";
         } elseif (!validatePassword($password)) {
             $_SESSION['error'] = "A senha deve ter pelo menos 8 caracteres";
         } else {
@@ -59,14 +68,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             if ($query->rowCount() > 0) {
                 $_SESSION['error'] = "Email já está em uso";
             } else {
-                $query = $pdo->prepare("INSERT INTO users (name, email, password) VALUES (?, ?, ?)");
+                $query = $pdo->prepare("INSERT INTO users (name, email, password, is_approved) VALUES (?, ?, ?, FALSE)");
                 try {
                     $query->execute([$name, $email, $passwordHash]);
-                    // Alterar esta linha:
-$_SESSION['success'] = "Cadastro realizado com sucesso! Faça login.";
-
-// Para:
-$_SESSION['success'] = "Cadastro efetuado com sucesso, favor logar com seu email e senha";
+                    $_SESSION['success'] = "Cadastro enviado para aprovação com sucesso!<br><br>
+                        Você receberá um email quando sua conta for aprovada.<br>
+                        Aguarde o administrador liberar seu acesso.";
                 } catch (PDOException $e) {
                     $_SESSION['error'] = "Erro ao cadastrar: " . $e->getMessage();
                 }

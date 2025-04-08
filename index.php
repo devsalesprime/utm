@@ -30,8 +30,8 @@ require 'db.php';
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link href="style.css?v2" rel="stylesheet">
-    <script src="script.js?v2"></script>
+    <link href="style.css?v6" rel="stylesheet">
+    <script src="script.js?v4"></script>
     <!-- Jquery JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
 </head>
@@ -125,7 +125,8 @@ require 'db.php';
                                     <div class="mb-3">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="email" class="form-control" id="email" name="email" required>
-                                    </div>
+                                        <p class="small fw-light">Apenas emails @salesprime.com.br são aceitos</p>
+                                    </div>                                    
                                     <div class="mb-3">
                                         <label for="password" class="form-label">Senha</label>
                                         <input type="password" class="form-control" id="password" name="password" required>
@@ -236,6 +237,12 @@ require 'db.php';
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_spot" value="spot" <?php echo $isDisabled; ?>>
                         <label class="btn btn-outline-secondary" for="source_spot"><i class="bi bi-spotify"></i></label>
+
+                        <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_linkd" value="linkd" <?php echo $isDisabled; ?>>
+                        <label class="btn btn-outline-secondary" for="source_linkd"><i class="bi bi-linkedin"></i></label>
+
+                        <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_goo" value="goo" <?php echo $isDisabled; ?>>
+                        <label class="btn btn-outline-secondary" for="source_goo"><i class="bi bi-google"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_msg" value="msg" <?php echo $isDisabled; ?>>
                         <label class="btn btn-outline-secondary" for="source_msg"><i class="bi bi-send"></i></label>

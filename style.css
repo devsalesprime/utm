@@ -327,6 +327,34 @@ a {
     border-color: #1DB954 !important;
 }
 
+/* Linkedin (linked) - Azul */
+#source_linkd:checked + .btn {
+    background-color: #0e76a8 !important;
+    color: white !important;
+    border-color: #0e76a8 !important;
+}
+
+#source_goo:checked + .btn {
+    background: repeating-linear-gradient(
+        180deg,
+        rgba(234, 67, 53, 0.5) 0%,     /* Vermelho com transparência */
+        rgba(234, 67, 53, 0.5) 25%,    /* 1ª listra */
+        rgba(251, 188, 5, 0.5) 25%,    /* Amarelo com transparência */
+        rgba(251, 188, 5, 0.5) 50%,    /* 2ª listra */
+        rgba(52, 168, 83, 0.5) 50%,    /* Verde com transparência */
+        rgba(52, 168, 83, 0.5) 75%,    /* 3ª listra */
+        rgba(66, 133, 244, 0.5) 75%,    /* Azul com transparência */
+        rgba(66, 133, 244, 0.5) 100%    /* 4ª listra */
+    ) !important;
+    position: relative;
+    overflow: hidden;
+    color: white !important;
+    border-color: white !important;
+}
+#source_goo:hover + .btn {
+    border-color: white !important;
+    color: #fff;
+}
 /* Mensagem (msg) - Azul claro */
 #source_msg:checked + .btn {
     background-color: #0084ff !important;
@@ -339,6 +367,7 @@ a {
 #source_wtt + .btn:hover { border-color: #25D366; color: #25D366; }
 #source_fb + .btn:hover { border-color: #1877f2; color: #1877f2; }
 #source_spot + .btn:hover { border-color: #1DB954; color: #1DB954; }
+#source_linkd + .btn:hover { border-color: #0084ff; color: #0084ff; }
 #source_msg + .btn:hover { border-color: #0084ff; color: #0084ff; }
 
 /* Sales Prime */
