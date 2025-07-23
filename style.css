@@ -1,0 +1,848 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&family=Shrikhand&display=swap');
+.modal-backdrop {
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo preto com opacidade */
+}
+.modal.show .modal-dialog {
+    pointer-events: auto;
+}
+.modal-backdrop.show {
+    opacity: 0.5;
+}
+
+body {
+    font-size: 0.8rem;
+}
+
+.p5 {
+    width: 12rem !important;
+}
+
+.utm-referencia{
+    line-height: normal;
+    background: rgba(135, 131, 120, .15);
+    color: #EB5757;
+    border-radius: 4px;
+    font-size: 85%;
+    padding: 0.2em 0.4em;
+}
+
+.help-text {
+    font-family: Roboto, sans-serif;
+    font-weight: 400;
+    font-size: 0.75rem;
+    line-height: 1.66;
+    text-align: left;
+    margin: 4px 14px 0px;
+}
+
+/* Estilos adicionais para o modo claro e escuro */
+.light-input {
+    background-color: white !important;
+    color: black !important;
+}
+
+.dark-input {
+    background-color: #343a40 !important;
+    color: white !important;
+}
+
+.light-placeholder::placeholder {
+    color: #6c757d !important;
+}
+
+.dark-placeholder::placeholder {
+    color: #adb5bd !important;
+}
+
+/* Main container */
+.theme-switch-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #8c8c91;
+    border-radius: 30px;
+    border: 2px solid #ccc;
+    padding: 10px;
+    width: 40px;
+    height: 150px;
+    position: relative;
+    /* Para controlar o background animado */
+    overflow: hidden;
+    /* Esconde qualquer coisa fora do container */
+    text-align: center;
+}
+
+/* Background animado */
+.theme-switch-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: #fff;
+    border-radius: 30px;
+    transform: translateY(0);
+    /* Posição inicial (Light) */
+    transition: transform 0.4s ease-in-out;
+    /* Animação suave */
+    z-index: 0;
+    /* Atrás dos botões */
+}
+
+/* Opções */
+.theme-switch-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    padding: 0px 0;
+    border-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+    /* Acima do fundo animado */
+}
+
+.light-option {
+    color: #cfcfcf;
+    margin-top: -5px;
+}
+
+.dark-option {
+    color: #ffffff;
+    padding: 15px 0 0 0;
+}
+
+/* Ícones */
+.theme-switch-option i {
+    font-size: 1.5rem;
+}
+
+/* Texto ativo */
+.theme-switch-option.active {
+    color: #524e4e;
+}
+
+.theme-link {
+    text-decoration: none;
+  }
+  
+.light-link {
+    color: #212529 !important;
+}
+
+.dark-link {
+    color: #f8f9fa !important;
+}
+.light-link:hover, .dark-link:hover {
+    text-decoration: underline;
+  }
+
+/* Movimento do fundo */
+.theme-switch-container.light-active .theme-switch-bg {
+    transform: translateY(0);
+    /* Fundo no topo (Light) */
+}
+
+.theme-switch-container.dark-active .theme-switch-bg {
+    transform: translateY(100%);
+    /* Fundo embaixo (Dark) */
+}
+
+a {
+    font-size: 0.8rem;
+    /* These are technically the same, but use both */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    /* This is the dangerous one in WebKit, as it breaks things wherever */
+    word-break: break-all;
+    /* Instead use this non-standard one: */
+    word-break: break-word;
+
+    /* Adds a hyphen where the word breaks, if supported (No Blink) */
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}
+
+.copy-icon {
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+/* Media query para telas pequenas */
+@media (max-width: 768px) {
+    .theme-switch-container {
+        flex-direction: row;
+        width: 150px;
+        height: 40px;
+    }
+
+    .theme-switch-bg {
+        height: 100%;
+        width: 50%;
+        transform: translateX(0);
+        transition: transform 0.4s ease-in-out;
+    }
+
+    .theme-switch-container.light-active .theme-switch-bg {
+        transform: translateX(0);
+    }
+
+    .theme-switch-container.dark-active .theme-switch-bg {
+        transform: translateX(100%);
+    }
+
+    .theme-switch-option {
+        flex-direction: row;
+        padding: 0;
+    }
+
+    .light-option {
+        margin-top: 0;
+        padding-right: 0;
+    }
+
+    .dark-option {
+        padding: 0 0 0 20px;
+    }
+
+    .fixed-top {
+        position: relative;
+    }
+
+    .mt-5 {
+        margin-top: 0!important;
+    }
+
+    table,
+    thead,
+    tbody,
+    th,
+    td,
+    tr {
+        display: block;
+    }
+
+    thead tr {
+        display: none;
+    }
+
+    tr {
+        margin-bottom: 1rem;
+    }
+
+    td {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        padding: 8px;
+        position: relative;
+    }
+
+    td:before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #ccc;
+        /* Espaçamento entre o label e o conteúdo */
+    }
+
+}
+/* Estilos para grupos de botões de seleção */
+.btn-group .btn {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn-check:checked + .btn {
+    background-color: #6c757d;
+    color: white;
+    border-color: #6c757d;
+}
+
+/* Responsividade para grupos de botões */
+@media (max-width: 768px) {
+    .btn-group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .btn-group .btn {
+        width: 100%;
+    }
+}
+
+/* Estilo para os botões de seleção */
+.btn-group .btn {
+    flex: 1;
+    white-space: nowrap;
+}
+
+/* Estilo base para todos os botões */
+.btn-group .btn {
+    transition: all 0.3s ease;
+}
+
+/* Cores específicas para cada botão quando selecionado */
+/* YouTube (yt) - Vermelho */
+#source_yt:checked + .btn {
+    background-color: #ff0000 !important;
+    color: white !important;
+    border-color: #ff0000 !important;
+}
+
+/* Instagram (ig) - Gradiente roxo/laranja */
+#source_ig:checked + .btn {
+    background-color: #833ab4 !important;
+    background: linear-gradient(45deg, #833ab4, #fd1d1d, #fcb045) !important;
+    color: white !important;
+    border-color: #833ab4 !important;
+}
+
+/* WhatsApp (wtt) - Verde */
+#source_wtt:checked + .btn {
+    background-color: #25D366 !important;
+    color: white !important;
+    border-color: #25D366 !important;
+}
+
+/* Facebook (fb) - Azul */
+#source_fb:checked + .btn {
+    background-color: #1877f2 !important;
+    color: white !important;
+    border-color: #1877f2 !important;
+}
+
+/* Spotify (spot) - Verde escuro */
+#source_spot:checked + .btn {
+    background-color: #1DB954 !important;
+    color: white !important;
+    border-color: #1DB954 !important;
+}
+
+/* Linkedin (linked) - Azul */
+#source_linkd:checked + .btn {
+    background-color: #0e76a8 !important;
+    color: white !important;
+    border-color: #0e76a8 !important;
+}
+
+#source_goo:checked + .btn {
+    background: repeating-linear-gradient(
+        180deg,
+        rgba(234, 67, 53, 0.5) 0%,     /* Vermelho com transparência */
+        rgba(234, 67, 53, 0.5) 25%,    /* 1ª listra */
+        rgba(251, 188, 5, 0.5) 25%,    /* Amarelo com transparência */
+        rgba(251, 188, 5, 0.5) 50%,    /* 2ª listra */
+        rgba(52, 168, 83, 0.5) 50%,    /* Verde com transparência */
+        rgba(52, 168, 83, 0.5) 75%,    /* 3ª listra */
+        rgba(66, 133, 244, 0.5) 75%,    /* Azul com transparência */
+        rgba(66, 133, 244, 0.5) 100%    /* 4ª listra */
+    ) !important;
+    position: relative;
+    overflow: hidden;
+    color: white !important;
+    border-color: white !important;
+}
+#source_goo:hover + .btn {
+    border-color: white !important;
+    color: #fff;
+}
+/* Mensagem (msg) - Azul claro */
+#source_msg:checked + .btn {
+    background-color: #0084ff !important;
+    color: white !important;
+    border-color: #0084ff !important;
+}
+/* Mensagem (msg) - Azul claro */
+#source_site:checked + .btn {
+    background-color: #ef9e11 !important;
+    color: white !important;
+    border-color: #ef9e11 !important;
+}
+/* Efeito hover mantendo a identidade de cada plataforma */
+#source_yt + .btn:hover { border-color: #ff0000; color: #ff0000; }
+#source_ig + .btn:hover { border-color: #833ab4; color: #833ab4; }
+#source_wtt + .btn:hover { border-color: #25D366; color: #25D366; }
+#source_fb + .btn:hover { border-color: #1877f2; color: #1877f2; }
+#source_spot + .btn:hover { border-color: #1DB954; color: #1DB954; }
+#source_linkd + .btn:hover { border-color: #0084ff; color: #0084ff; }
+#source_msg + .btn:hover { border-color: #0084ff; color: #0084ff; }
+#source_site + .btn:hover { border-color: #ef9e11; color: #ef9e11; }
+
+/* Sales Prime */
+#profile_sales:checked + .btn {
+    background-color: #0B1426 !important;
+    color: #F2A011 !important;
+    border-color: #0B1426 !important;
+}
+#profile_sales+ .btn:hover { border-color: #0B1426!important; background-color: #0B1426 !important;color: #F2A011 !important; }
+/* PodVender */
+#profile_podvender:checked + .btn {
+    background-color: #080808 !important;
+    color: #D429FF !important;
+    border-color: #080808 !important;
+}
+#profile_podvender+ .btn:hover { border-color: #080808!important; background-color: #080808 !important;color: #D429FF !important; }
+/* Prosperus Club */
+#profile_prosperus:checked + .btn {
+    background-color: #031A2B !important;
+    color: #FFDA71 !important;
+    border-color: #031A2B !important;
+}
+#profile_prosperus+ .btn:hover { border-color: #031A2B!important; background-color: #031A2B !important;color: #FFDA71 !important; }
+/* Lumière Club */
+#profile_lumiere:checked + .btn {
+    background-color: #0F2C24 !important;
+    color: #BDE6F4 !important;
+    border-color: #0F2C24 !important;
+}
+#profile_lumiere+ .btn:hover { border-color: #0F2C24!important; background-color: #0F2C24 !important;color: #BDE6F4 !important; }
+/* Lumière Club */
+#profile_dani:checked + .btn {
+    background-color: #F9F7EF !important;
+    color: #A673DD !important;
+    border-color: #F9F7EF !important;
+}
+#profile_dani+ .btn:hover { border-color: #F9F7EF!important; background-color: #F9F7EF !important;color: #A673DD !important; }
+
+#profile_joel:checked + .btn {
+    background-color: #4759FF !important;
+    color: #F9F7EF !important;
+    border-color: #4759FF !important;
+}
+#profile_joel+ .btn:hover { border-color: #4759FF!important; background-color: #4759FF !important;color: #F9F7EF !important; }
+
+#campaign_perpetuo:checked + .btn {
+    background-color: #E8F5E9 !important; /* Verde muito claro */
+    color: #2E7D32 !important; /* Verde escuro */
+    border-color: #E8F5E9 !important;
+}
+#campaign_perpetuo + .btn:hover {
+    border-color: #C8E6C9 !important;
+    background-color: #C8E6C9 !important;
+    color: #1B5E20 !important;
+}
+#campaign_conversao:checked + .btn {
+    background-color: #E3F2FD !important; /* Azul claro */
+    color: #0D47A1 !important; /* Azul escuro */
+    border-color: #E3F2FD !important;
+}
+#campaign_conversao + .btn:hover {
+    border-color: #BBDEFB !important;
+    background-color: #BBDEFB !important;
+    color: #0D47A1 !important;
+}
+#campaign_lancamento:checked + .btn {
+    background-color: #FCE4EC !important; /* Rosa claro */
+    color: #AD1457 !important; /* Vinho */
+    border-color: #FCE4EC !important;
+}
+#campaign_lancamento + .btn:hover {
+    border-color: #F8BBD0 !important;
+    background-color: #F8BBD0 !important;
+    color: #880E4F !important;
+}
+#campaign_evento:checked + .btn {
+    background-color: #FFF8E1 !important; /* Amarelo claro */
+    color: #FF8F00 !important; /* Laranja */
+    border-color: #FFF8E1 !important;
+}
+#campaign_evento + .btn:hover {
+    border-color: #FFECB3 !important;
+    background-color: #FFECB3 !important;
+    color: #FF6F00 !important;
+}
+#campaign_outro:checked + .btn {
+    background-color: #F5F5F5 !important; /* Cinza claro */
+    color: #616161 !important; /* Cinza escuro */
+    border-color: #F5F5F5 !important;
+}
+#campaign_outro + .btn:hover {
+    border-color: #EEEEEE !important;
+    background-color: #EEEEEE !important;
+    color: #424242 !important;
+}
+
+#trafego_organico:checked + .btn {
+    background-color: #25D366 !important; /* Cinza claro */
+    color: #000 !important; /* Cinza escuro */
+    border-color: #25D366 !important;
+}
+#trafego_organico + .btn:hover {
+    border-color: #fff !important;
+    background-color: #fff !important;
+    color: #25D366 !important;
+}
+#trafego_pago:checked + .btn {
+    background-color: #ff0000  !important; /* Cinza claro */
+    color: #fff !important; /* Cinza escuro */
+    border-color: #ff0000  !important;
+}
+#trafego_pago + .btn:hover {
+    border-color: #ff0000  !important;
+    background-color: #ff0000  !important;
+    color: #fff !important;
+}
+/* Garantir que o texto fique legível */
+.btn-check:checked + .btn {
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
+}
+/* Container do campo "Outros" com transição suave */
+#campaign_other_container {
+    transition: all 0.3s ease;
+}
+
+/* Adicione ao style.css */
+.utm-referencia {
+    text-transform: uppercase;
+}
+
+/* Ajuste para mobile */
+@media (max-width: 768px) {
+    .btn-group {
+        flex-wrap: wrap;
+    }
+    .btn-group .btn {
+        flex: 1 0 45%;
+        margin-bottom: 5px;
+    }
+}
+/* Estilo base para os ícones */
+.icon-animate {
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+/* Animações específicas para cada ícone */
+/* Perpétuo - Infinito girando */
+.btn:hover .bi-infinity {
+    animation: spin 2s linear infinite;
+}
+
+/* Conversão - Seta pulsando */
+.btn:hover .bi-arrow-right-circle {
+    animation: pulse 1.5s ease infinite;
+}
+
+/* Lançamento - Foguete subindo */
+.btn:hover .bi-rocket-takeoff {
+    animation: float 1.5s ease-in-out infinite;
+}
+
+/* Evento - Calendário balançando */
+.btn:hover .bi-calendar-event {
+    animation: swing 1s ease infinite;
+}
+
+/* Outros - Pontos pulsando */
+.btn:hover .bi-three-dots {
+    animation: bounce 1s ease infinite;
+}
+
+/* Definições das animações */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes swing {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+@keyframes bounce {
+    0%, 100% { 
+        transform: translateY(0);
+        opacity: 1;
+    }
+    50% { 
+        transform: translateY(-3px);
+        opacity: 0.8;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .icon-animate {
+        animation: none !important;
+    }
+}
+#utmForm:has(.disabled-field:disabled) {
+    cursor: not-allowed;
+}
+
+.disabled-field:disabled {
+    cursor: not-allowed;
+}
+
+.modal h1 {
+	font-weight: bold;
+	margin: 0;
+    color: #3D4F73;
+}
+
+.modal h2 {
+	text-align: center;
+}
+
+.modal p {
+	font-size: 14px;
+	font-weight: 100;
+	line-height: 20px;
+	letter-spacing: 0.5px;
+	margin: 20px 0 30px;
+}
+
+.modal span {
+	font-size: 12px;
+}
+
+.modal a {
+	color: #333;
+	font-size: 14px;
+	text-decoration: none;
+	margin: 15px 0;
+}
+
+.modal button {
+	border-radius: 20px;
+	border: 1px solid #3D4F73;
+	background-color: #3D4F73;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	padding: 12px 45px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
+.modal button:active {
+	transform: scale(0.95);
+}
+
+.modal button:focus {
+	outline: none;
+}
+
+.modal button.ghost {
+	background-color: transparent;
+	border-color: #FFFFFF;
+}
+
+.modal form {
+	background-color: #FFFFFF;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 50px;
+	height: 100%;
+	text-align: center;
+}
+
+.modal input {
+	background-color: #eee;
+	border: none;
+	padding: 12px 15px;
+	margin: 8px 0;
+	width: 100%;
+}
+
+.modal .container {
+	background-color: #fff;
+	border-radius: 10px;
+  	box-shadow: 0 14px 28px rgba(0,0,0,0.15), 
+			0 10px 10px rgba(0,0,0,0.12);
+	position: relative;
+	overflow: hidden;
+	width: 768px;
+	max-width: 100%;
+	min-height: 480px;
+}
+
+.modal .form-container {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	transition: all 0.6s ease-in-out;
+}
+
+.modal .sign-in-container {
+	left: 0;
+	width: 50%;
+	z-index: 2;
+}
+
+.modal .container.right-panel-active .sign-in-container {
+	transform: translateX(100%);
+}
+
+.modal .sign-up-container {
+	left: 0;
+	width: 50%;
+	opacity: 0;
+	z-index: 1;
+}
+
+.modal .container.right-panel-active .sign-up-container {
+	transform: translateX(100%);
+	opacity: 1;
+	z-index: 5;
+	animation: show 0.6s;
+}
+
+@keyframes show {
+	0%, 49.99% {
+		opacity: 0;
+		z-index: 1;
+	}
+	
+	50%, 100% {
+		opacity: 1;
+		z-index: 5;
+	}
+}
+
+.modal .overlay-container {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 50%;
+	height: 100%;
+	overflow: hidden;
+	transition: transform 0.6s ease-in-out;
+	z-index: 100;
+}
+
+.modal .container.right-panel-active .overlay-container{
+	transform: translateX(-100%);
+}
+
+.modal .overlay {
+  background: #3D4F73;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #3D4F73, #0B1426);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #3D4F73, #0B1426); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 0 0;
+	color: #FFFFFF;
+	position: relative;
+	left: -100%;
+	height: 100%;
+	width: 200%;
+  	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+
+.modal .container.right-panel-active .overlay {
+  	transform: translateX(50%);
+}
+
+.modal .overlay-panel {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	padding: 0 40px;
+	text-align: center;
+	top: 0;
+	height: 100%;
+	width: 50%;
+	transform: translateX(0);
+	transition: transform 0.6s ease-in-out;
+}
+
+.modal .overlay-left {
+	transform: translateX(-20%);
+}
+
+.modal .overlay-left h1, .modal .overlay-right h1 {
+    font-weight: bold;
+    margin: 0;
+    color: #fff;
+}
+
+.modal .container.right-panel-active .overlay-left {
+	transform: translateX(0);
+}
+
+.modal .overlay-right {
+	right: 0;
+	transform: translateX(0);
+}
+
+.modal .container.right-panel-active .overlay-right {
+	transform: translateX(20%);
+}
+
+.modal footer {
+    background-color: #222;
+    color: #fff;
+    font-size: 14px;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+}
+.modal-header .btn-close {
+    background-color: #fff;
+}
+/* Adicione ao style.css */
+td[data-label="Comentário"] {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+    td[data-label="Comentário"] {
+        max-width: none;
+        white-space: normal;
+    }
+    
+    td[data-label="Comentário"]:before {
+        content: attr(data-label);
+        font-weight: bold;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #ccc;
+    }
+}
+.campaign-seletor{
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    text-align: center;
+    white-space: nowrap;
+    border-radius: 0.375rem;
+    margin-bottom: 0.3rem!important;
+}
+.campaign{
+    text-align: center;
+}
+.form-label label{
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem!important;
+}
