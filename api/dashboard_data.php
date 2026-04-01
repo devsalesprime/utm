@@ -70,15 +70,20 @@ try {
     $response['clicks_by_source'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     // === Clicks Last N Days (from clicks table) ===
-    $stmt = $pdo->prepare("
-        SELECT DATE(clicked_at) as click_date, COUNT(*) as click_count
-        FROM clicks
-        WHERE clicked_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
-        GROUP BY DATE(clicked_at)
-        ORDER BY click_date ASC
-    ");
-    $stmt->execute([$period]);
-    $clicksFromTable = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $clicksFromTable = [];
+    try {
+        $stmt = $pdo->prepare("
+            SELECT DATE(clicked_at) as click_date, COUNT(*) as click_count
+            FROM clicks
+            WHERE clicked_at >= DATE_SUB(CURDATE(), INTERVAL ? DAY)
+            GROUP BY DATE(clicked_at)
+            ORDER BY click_date ASC
+        ");
+        $stmt->execute([$period]);
+        $clicksFromTable = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        // Silencioso: Se a tabela não existe, cairemos automaticamente no fallback abaixo
+    }
 
     // If clicks table has data, use it; otherwise fall back to generation_date
     if (count($clicksFromTable) > 0) {
