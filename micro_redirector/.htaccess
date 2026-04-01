@@ -1,0 +1,8 @@
+# Proteção e Proxy
+Options -Indexes
+RewriteEngine On
+
+# Todas as requisições (ex: /utm/xyz123) vão para o index.php, menos se for o próprio index.php ou arquivos reais
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?v=$1 [QSA,L]

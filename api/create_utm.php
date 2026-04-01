@@ -45,6 +45,7 @@ try {
     $utmContent = trim($input['utm_content'] ?? '');
     $utmTerm = trim($input['utm_term'] ?? '');
     $comment = trim($input['comment'] ?? $input['utm_comment'] ?? '');
+    $selectedDomain = trim($input['domain'] ?? 'salesprime.com.br');
 
     // ============================================
     // Validações Server-Side
@@ -117,10 +118,10 @@ try {
     $username = $_SESSION['username'] ?? 'unknown';
 
     $stmt = $pdo->prepare(
-        "INSERT INTO urls (original_url, long_url, shortened_url, username, comment)
-         VALUES (?, ?, ?, ?, ?)"
+        "INSERT INTO urls (original_url, long_url, shortened_url, username, comment, domain)
+         VALUES (?, ?, ?, ?, ?, ?)"
     );
-    $stmt->execute([$url, $longUrl, $shortCode, $username, $comment ?: null]);
+    $stmt->execute([$url, $longUrl, $shortCode, $username, $comment ?: null, $selectedDomain]);
 
     $utmId = $pdo->lastInsertId();
 
@@ -130,7 +131,7 @@ try {
         'data' => [
             'id' => (int) $utmId,
             'short_code' => $shortCode,
-            'short_url' => APP_URL . '/go.php?code=' . $shortCode,
+            'short_url' => str_replace('salesprime.com.br', $selectedDomain, APP_URL) . '/go.php?code=' . $shortCode,
             'long_url' => $longUrl,
             'original_url' => $url,
         ]

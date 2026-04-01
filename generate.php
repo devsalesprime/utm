@@ -62,15 +62,12 @@ function sanitizeCustomName($name)
  */
 function validateUserDomainPermission($pdo, $userId, $requestedDomain)
 {
-    // Lista de domínios permitidos (whitelist)
-    $allowedDomains = ['salesprime.com.br', 'prosperusclub.com.br'];
-    
-    // Se o domínio solicitado não está na whitelist, usar default
-    if (!in_array($requestedDomain, $allowedDomains)) {
-        $requestedDomain = 'salesprime.com.br';
+    // Se for admin, bypass na verificação restrita de tabela
+    if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']) {
+        return $requestedDomain;
     }
 
-    // Verificar se o usuário tem permissões para este domínio
+    // Verificar no banco de dados
     try {
         $stmt = $pdo->prepare(
             "SELECT COUNT(*) as has_permission 
@@ -81,18 +78,17 @@ function validateUserDomainPermission($pdo, $userId, $requestedDomain)
         $stmt->execute([$userId, $requestedDomain]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // Se tem permissão explícita, usar o domínio solicitado
+        // Se tem permissão explícita
         if ($result['has_permission'] > 0) {
             return $requestedDomain;
         }
 
-        // Se não tem permissão, usar o default (salesprime)
-        // Isto garante que o usuário sempre pode gerar UTMs em algum domínio
-        return 'salesprime.com.br';
+        // Sem permissão - morre com aviso amigável
+        die("<div style='font-family:sans-serif; padding: 20px;'><h3>Acesso Negado</h3><p>Você não tem permissão para gerar links no domínio <b>" . htmlspecialchars($requestedDomain) . "</b>.</p><p><a href='index.php'>Voltar</a></p></div>");
+
     } catch (Exception $e) {
-        // Se houver erro na query de permissões, usar default
         error_log("Domain permission check error: " . $e->getMessage());
-        return 'salesprime.com.br';
+        die("Aviso: As tabelas de permissões multi-domínio ainda não foram configuradas no banco de dados.");
     }
 }
 

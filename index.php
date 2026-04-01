@@ -246,6 +246,17 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
                 <!-- Verifica se o usuário está logado -->
                 <?php $isDisabled = !isset($_SESSION['username']) ? 'disabled' : ''; ?>
 
+                <!-- Sincronização de Domínio -->
+                <input type="hidden" name="domain" id="selected_domain_input" value="salesprime.com.br">
+                <script>
+                    document.querySelectorAll('input[name="domain-selector"]').forEach(radio => {
+                        if(radio.checked) document.getElementById('selected_domain_input').value = radio.value;
+                        radio.addEventListener('change', function() {
+                            document.getElementById('selected_domain_input').value = this.value;
+                        });
+                    });
+                </script>
+
                 <div class="input-group mb-3">
                     <span class="input-group-text p5" id="website_url" <?php if ($isDisabled)
                         echo 'data-tooltip-disabled="Precisa estar logado para gerar UTMs"'; ?>><i
@@ -539,8 +550,7 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
                         aria-describedby="custom_name" id="custom_name" name="custom_name" <?php echo $isDisabled; ?>>
                 </div>
 
-                <!-- Adicione este field hidden para enviar o domínio selecionado -->
-                <input type="hidden" id="domain-field" name="domain" value="salesprime.com.br">
+
 
                 <!-- Adicione este campo antes do botão de submit -->
                 <div class="input-group mb-3">
