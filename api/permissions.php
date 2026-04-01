@@ -27,9 +27,9 @@ try {
         // LIST (GET)
         case 'list':
             $stmt = $pdo->query(
-                "SELECT udp.*, u.name as user_name, d.name as domain_name, d.domain_url 
+                "SELECT udp.*, u.name as user_name, u.email as user_email, d.name as domain_name, d.domain_url 
                  FROM user_domain_permissions udp
-                 LEFT JOIN users u ON udp.user_id = u.id
+                 JOIN users u ON udp.user_id = u.id
                  JOIN domains d ON udp.domain_id = d.id
                  ORDER BY u.name, d.name"
             );
@@ -49,6 +49,15 @@ try {
                 throw new Exception('Usuário e domínio são obrigatórios');
             }
 
+            // Verificar se usuário existe pelo e-mail
+            $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+            $stmt->execute([$username]);
+            $user_data = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!$user_data) {
+                throw new Exception('Usuário com esse e-mail não encontrado no sistema.');
+            }
+            $user_id = $user_data['id'];
+
             // Verificar se domínio existe
             $stmt = $pdo->prepare("SELECT id FROM domains WHERE id = ?");
             $stmt->execute([$domain_id]);
@@ -58,13 +67,13 @@ try {
 
             // Inserir ou atualizar permissão
             $stmt = $pdo->prepare(
-                "INSERT INTO user_domain_permissions (username, domain_id, can_create, can_edit, can_delete, assigned_by) 
+                "INSERT INTO user_domain_permissions (user_id, domain_id, can_create, can_edit, can_delete, assigned_by) 
                  VALUES (?, ?, ?, ?, ?, ?)
                  ON DUPLICATE KEY UPDATE 
                     can_create = ?, can_edit = ?, can_delete = ?, assigned_by = ?"
             );
             $stmt->execute([
-                $username, $domain_id, $can_create, $can_edit, $can_delete, $currentAdmin,
+                $user_id, $domain_id, $can_create, $can_edit, $can_delete, $currentAdmin,
                 $can_create, $can_edit, $can_delete, $currentAdmin
             ]);
 
@@ -114,13 +123,15 @@ try {
                 throw new Exception('Usuário obrigatório');
             }
 
+            // $username aqui vem da sessão (provavelmente nome ou e-mail). Mas vamos cruzar com users
             $stmt = $pdo->prepare(
                 "SELECT udp.*, d.name as domain_name, d.domain_url 
                  FROM user_domain_permissions udp
                  JOIN domains d ON udp.domain_id = d.id
-                 WHERE udp.username = ?"
+                 JOIN users u ON udp.user_id = u.id
+                 WHERE u.email = ? OR u.name = ?"
             );
-            $stmt->execute([$username]);
+            $stmt->execute([$username, $username]);
             $permissions = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             echo json_encode(['success' => true, 'data' => $permissions]);
