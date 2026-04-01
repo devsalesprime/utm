@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'includes/db.php';
+require 'db.php';
 
 // Buscar membros da equipe do banco de dados
 $teamMembersStmt = $pdo->query("SELECT id, name, type FROM team_members ORDER BY type, name");
@@ -19,7 +19,7 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -59,17 +59,14 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/componentes.css">
     <link rel="stylesheet" href="assets/css/utm-btn.css">
-    <link rel="stylesheet" href="assets/css/domain-selector.css">
-    <link rel="stylesheet" href="assets/css/theme-antigravity.css">
     <link rel="stylesheet" href="assets/css/tema.css">
     <link rel="stylesheet" href="assets/css/responsivo.css">
-    <script src="assets/js/script.js?v1"></script>
-    <script src="assets/js/utm-generator.js?v1" defer></script>
+    <script src="script.js?v1"></script>
     <!-- Jquery JS -->
     <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
 </head>
 
-<body class="theme-sales-prime">
+<body>
     <div class="p-3 fixed-top mt-5" style="width: 10%;">
         <div id="themeSwitch" class="theme-switch-container light-active">
             <div class="theme-switch-bg"></div>
@@ -87,18 +84,17 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
         <!-- Botões de Login e Cadastro no topo -->
         <?php if (!isset($_SESSION['username'])): ?>
             <div class="d-flex justify-content-end mb-3">
-                <button class="ag-btn-accent me-2" data-bs-toggle="modal" data-bs-target="#loginModal"
-                    onclick="showLoginTab()"><i class="bi bi-box-arrow-in-right me-2"></i>Entrar</button>
-                <button class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#loginModal"
-                    onclick="showRegisterTab()"><i class="bi bi-person-plus me-2"></i>Cadastro</button>
+                <button class="btn btn-dark border-light me-2" data-bs-toggle="modal" data-bs-target="#loginModal"
+                    onclick="showLoginTab()">Entrar</button>
+                <button class="btn btn-dark " data-bs-toggle="modal" data-bs-target="#loginModal"
+                    onclick="showRegisterTab()">Cadastro</button>
             </div>
         <?php else: ?>
-            <div class="z-3 float-md-none float-sm-end text-end mx-2">
+            <div class="z-3 float-md-none float-sm-end text-end">
                 <span class="me-3">Usuário: <?php echo htmlspecialchars($_SESSION['username']); ?></span>
                 <?php if (isset($_SESSION['is_admin']) && $_SESSION['is_admin']): ?>
-                    <a href="admin.php" class="btn btn-success btn-sm me-2"><i class="bi bi-gear"></i> Painel Admin</a>
+                    <a href="admin.php" class="btn btn-success btn-sm"><i class="bi bi-gear"></i> Painel Administrador</a>
                 <?php endif; ?>
-                <a href="dashboard.php" class="btn btn-primary btn-sm me-2"><i class="bi bi-graph-up me-1"></i>Analytics</a>
                 <form action="logout.php" method="POST" style="display: inline;">
                     <button type="submit" class="btn btn-danger btn-sm">Sair</button>
                 </form>
@@ -168,9 +164,9 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
             </div>
         </div>
         <div class="row">
-            <img src="assets/images/logo-light.png" alt="Logo" class="img-fluid d-none mx-auto" id="logo-light"
+            <img src="images/logo-light.png" alt="Logo" class="img-fluid d-none mx-auto" id="logo-light"
                 style="max-width: 150px;">
-            <img src="assets/images/logo-dark.png" alt="Logo" class="img-fluid d-block mx-auto" id="logo-dark"
+            <img src="images/logo-dark.png" alt="Logo" class="img-fluid d-block mx-auto" id="logo-dark"
                 style="max-width: 150px;">
             <script>
                 // Troca a logo conforme o tema e salva no localStorage
@@ -202,44 +198,6 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
             </script>
             <h1 class="text-center mt-3">Gerador de UTM</h1>
         </div>
-
-        <!-- Seletor de Domínio - PARTE 2.1 Multi-Domínio Support -->
-        <div class="container mt-4 mb-4">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="ag-card border-0 domain-selector-card">
-                        <div class="card-body">
-                            <label class="form-label fw-bold d-block mb-3">
-                                <i class="bi bi-globe me-2"></i>Selecione o Domínio
-                            </label>
-                            <div class="btn-group w-100" role="group" aria-label="Seletor de Domínio">
-                                <input type="radio" class="btn-check" name="domain-selector" id="domain-salesprime"
-                                    value="salesprime.com.br" checked
-                                    data-logo-light="assets/images/logo_sales_prime.png"
-                                    data-logo-dark="assets/images/logo-dark.png" data-brand="Sales Prime"
-                                    data-color="#0D6EFD">
-                                <label class="btn btn-outline-primary" for="domain-salesprime">
-                                    <i class="bi bi-building me-2"></i>Sales Prime
-                                </label>
-
-                                <input type="radio" class="btn-check" name="domain-selector" id="domain-prosperus"
-                                    value="prosperusclub.com.br" data-logo-light="assets/images/logo_prosperus_club.png"
-                                    data-logo-dark="assets/images/logo-dark.png" data-brand="Prosperus Club"
-                                    data-color="#FFC107">
-                                <label class="btn btn-outline-warning" for="domain-prosperus">
-                                    <i class="bi bi-trophy"></i>Prosperus Club
-                                </label>
-                            </div>
-                            <small class="text-muted d-block mt-2 text-center">
-                                <i class="bi bi-info-circle me-1"></i>
-                                Todas as UTMs serão geradas para o domínio selecionado
-                            </small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Formulário para desktop -->
         <div class="container mt-2">
             <form id="utmForm" action="generate.php" method="POST" class="mt-4">
@@ -256,7 +214,7 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
                 </div>
 
                 <div class="input-group mb-3">
-                    <div class="btn-group w-100" role="radiogroup" aria-label="Selecione o canal de marketing">
+                    <div class="btn-group w-100" role="group">
                         <span class="input-group-text p5 rounded-end-0"><i class="bi bi-person me-1"></i> Canais:</span>
                         <input type="radio" class="btn-check disabled-field" name="utm_campaign" id="profile_sales"
                             value="Sales-Prime" checked <?php echo $isDisabled; ?>>
@@ -446,68 +404,58 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
 
                 <!-- Campo UTM Source atualizado para botões -->
                 <div class="input-group mb-3" id="utm_source_group">
-                    <div class="btn-group w-100" role="radiogroup" aria-label="Selecione a plataforma de origem">
+                    <div class="btn-group w-100" role="group">
                         <span class="input-group-text p5 rounded-end-0"><i class="bi bi-menu-up me-1"></i> UTM
                             Source:</span>
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_ig" value="ig"
                             checked <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_ig" aria-label="Instagram"><i
-                                class="bi bi-instagram" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_ig"><i class="bi bi-instagram"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_yt" value="yt"
                             <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_yt" aria-label="YouTube"><i
-                                class="bi bi-youtube" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_yt"><i class="bi bi-youtube"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_in" value="in"
                             <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_in" aria-label="LinkedIn"><i
-                                class="bi bi-linkedin" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_in"><i class="bi bi-linkedin"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_tktk"
                             value="tktk" <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_tktk" aria-label="TikTok"><i
-                                class="bi bi-tiktok" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_tktk"><i class="bi bi-tiktok"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_thrd"
                             value="thrd" <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_thrd" aria-label="Threads"><i
-                                class="bi bi-threads" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_thrd"><i class="bi bi-threads"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_spot"
                             value="spot" <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_spot" aria-label="Spotify"><i
-                                class="bi bi-spotify" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_spot"><i class="bi bi-spotify"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_wpp"
                             value="wpp" <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_wpp" aria-label="WhatsApp"><i
-                                class="bi bi-whatsapp" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_wpp"><i class="bi bi-whatsapp"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_appl"
                             value="appl" <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_appl" aria-label="Apple"><i
-                                class="bi bi-apple" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_appl"><i class="bi bi-apple"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_amz"
                             value="amz" <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_amz" aria-label="Amazon"><i
-                                class="bi bi-amazon" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_amz"><i class="bi bi-amazon"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_dzr"
                             value="dzr" <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_dzr" aria-label="Deezer"><i
-                                class="bi bi-music-note-beamed" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_dzr"><i
+                                class="bi bi-music-note-beamed"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_email"
                             value="email" <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_email" aria-label="Email"><i
-                                class="bi bi-envelope" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_email"><i
+                                class="bi bi-envelope"></i></label>
 
                         <input type="radio" class="btn-check disabled-field" name="utm_source" id="source_site"
                             value="site" <?php echo $isDisabled; ?>>
-                        <label class="btn btn-outline-secondary" for="source_site" aria-label="Site"><i
-                                class="bi bi-globe" aria-hidden="true"></i></label>
+                        <label class="btn btn-outline-secondary" for="source_site"><i class="bi bi-globe"></i></label>
                     </div>
                 </div>
 
@@ -539,9 +487,6 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
                         aria-describedby="custom_name" id="custom_name" name="custom_name" <?php echo $isDisabled; ?>>
                 </div>
 
-                <!-- Adicione este field hidden para enviar o domínio selecionado -->
-                <input type="hidden" id="domain-field" name="domain" value="salesprime.com.br">
-
                 <!-- Adicione este campo antes do botão de submit -->
                 <div class="input-group mb-3">
                     <span class="input-group-text p5" id="utm_comment"><i class="bi bi-chat-left-text me-1"></i>
@@ -550,25 +495,7 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
                         placeholder="Descrição ou observação sobre esta UTM" aria-label="utm_comment"
                         aria-describedby="utm_comment" id="utm_comment" name="utm_comment" required <?php echo $isDisabled; ?>>
                 </div>
-                <!-- Preview da URL gerada -->
-                <div class="ag-glass mb-4 p-1" id="utmPreviewCard">
-                    <div class="card-body p-3">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-eye text-primary" aria-hidden="true"></i>
-                            <small class="text-muted fw-bold">Preview:</small>
-                        </div>
-                        <div id="urlPreview" class="mt-1" aria-live="polite" aria-label="Preview da URL gerada">
-                            <span class="text-muted small">Preencha os campos para visualizar a URL...</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex gap-3 mb-4 mt-4">
-                    <button type="submit" class="ag-btn-accent disabled-field flex-grow-1" <?php echo $isDisabled; ?>><i
-                            class="bi bi-magic me-2"></i> Gerar UTM</button>
-                    <?php if (isset($_SESSION['username'])): ?>
-                        <a href="export.php" class="ag-btn-outline"><i class="bi bi-download me-2"></i>Exportar CSV</a>
-                    <?php endif; ?>
-                </div>
+                <button type="submit" class="btn btn-dark border-light mb-3 disabled-field" <?php echo $isDisabled; ?>>Gerar UTM</button>
             </form>
         </div>
 
@@ -894,14 +821,174 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
                 </div>
             </div>
         </div>
-        <h2 class="mt-5" id="historico"><i class="bi bi-clock-history me-2"></i>Histórico de URLs</h2>
-        <?php 
-        try {
-            require 'includes/table_history.php';
-        } catch (PDOException $e) {
-            echo '<div class="alert alert-warning mt-4"><i class="bi bi-exclamation-triangle-fill me-2"></i><b>Aviso de Sistema:</b> O seu banco de dados precisa ser atualizado (script SQL pendente) para suportar as novas funcionalidades de Multi-Domínio. O histórico está temporariamente indisponível.</div>';
-        }
-        ?>
+        <h2 class="mt-5">Histórico de URLs</h2>
+        <div class="row mb-3">
+            <div class="col-md-6 mb-2">
+                <div class="input-group">
+                    <span class="input-group-text" id="searchInput"><i class="bi bi-search"></i></span>
+                    <input type="text" id="searchInputField" class="form-control"
+                        placeholder="Buscar UTM ou Nome Personalizado" aria-label="Buscar UTM"
+                        aria-describedby="searchInput">
+                </div>
+            </div>
+            <div class="input-group col mb-2">
+                <span class="input-group-text" id="dateFilterLabel"><i class="bi bi-calendar"></i></span>
+                <input type="date" id="dateFilter" class="form-control" aria-label="Filtrar por data"
+                    aria-describedby="dateFilterLabel">
+            </div>
+            <div class="input-group col mb-2">
+                <span class="input-group-text" id="clicksFilterLabel"><i class="bi bi-list-ol"></i></span>
+                <input type="number" id="clicksFilter" class="form-control" placeholder="Filtrar por número de cliques"
+                    aria-label="Filtrar por número de cliques" aria-describedby="clicksFilterLabel">
+            </div>
+        </div>
+        <!-- Tabela de URLs -->
+        <div class="table-responsive">
+            <table class="table table-bordered table-light">
+                <thead>
+                    <tr>
+                        <th><i class="bi bi-qr-code"></i> QR Code</th>
+                        <th><i class="bi bi-link"></i> Link Original com UTM</th>
+                        <th><i class="bi bi-link-45deg"></i> Link Encurtado</th>
+                        <?php if (isset($_SESSION['username'])): ?>
+                            <th><i class="bi bi-hand-index"></i> Clicks</th>
+                            <th><i class="bi bi-toggle-on"></i> Status</th>
+                            <th><i class="bi bi-trash"></i> Excluir</th>
+                            <th><i class="bi bi-calendar2-check"></i> Data de Geração</th>
+                            <th><i class="bi bi-chat-left-text"></i> Comentário</th> <!-- Nova coluna -->
+                            <th><i class="bi bi-person"></i> Usuário</th>
+                        <?php endif; ?>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    // Consulta para obter todas as URLs ordenadas pela data de geração em ordem decrescente
+                    $query = $pdo->query("SELECT *, is_enabled FROM urls ORDER BY generation_date DESC");
+                    while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+                        // Gerar a URL do QR Code
+                        $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=1500x1500&data=' . urlencode("https://salesprime.com.br/utm/" . $row['shortened_url']);
+
+                        // Formatar a data para o formato dia-mês-ano hora:minutos
+                        $formattedDate = date('d-m-Y H:i', strtotime($row['generation_date']));
+
+                        // Exibir a linha da tabela com os dados da URL
+                        echo "<tr>
+            <td data-label='QR Code' class='text-center align-middle'>
+                <span data-bs-toggle='tooltip' title='Clique para abrir o QRCode'>
+                <img src='" . $qrCodeUrl . "' alt='QR Code' style='width: 50px; height: 50px; cursor: pointer;' data-bs-toggle='modal' data-bs-target='#qrModal" . $row['shortened_url'] . "'>
+                </span>
+                <div class='modal fade' id='qrModal" . $row['shortened_url'] . "' tabindex='-1' aria-hidden='true'>
+                <div class='modal-dialog modal-dialog-centered'>
+                <div class='modal-content'>
+                <div class='modal-header'>
+                    <h5 class='modal-title'>QR Code</h5>
+                    <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+                </div>
+                <div class='modal-body text-center'>
+                    <div style='position: relative; display: inline-block;'>
+                    <img id='qrCodeImage" . $row['shortened_url'] . "' src='" . $qrCodeUrl . "' alt='QR Code' style='width: 300px; height: 300px;'>
+                    <img id='logoOverlay" . $row['shortened_url'] . "' src='' alt='Logo' style='position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 80px; height: 80px; display: none;'>
+                    </div>
+                    <div class='mt-3'>
+                    <label for='logoSelect" . $row['shortened_url'] . "'>Escolha uma logo para aplicar no QR Code:</label>
+                    <select id='logoSelect" . $row['shortened_url'] . "' class='form-select mt-2' onchange='applyLogo(\"" . $row['shortened_url'] . "\")'>
+                    <option value=''>Nenhuma</option>
+                    <option value='images/logo_prosperus_club.png'>Logo Prosperus Club</option>
+                    <option value='images/logo_sales_prime.png'>Logo Sales Prime</option>
+                    </select>
+                    </div>
+                    <div class='mt-3'>
+                    <button class='btn btn-dark border-light' onclick='downloadQRCodeWithLogo(\"" . $row['shortened_url'] . "\", \"https://api.qrserver.com/v1/create-qr-code/?size=1000x1000&data=" . urlencode("https://salesprime.com.br/utm/" . $row['shortened_url']) . "\")'>
+                    <i class='bi bi-download' aria-hidden='true'></i> Baixar QRCode
+                    </button>
+                    </div>
+                    <script>
+                    function downloadQRCodeWithLogo(shortenedUrl, qrCodeUrl) {
+                    var logo = document.getElementById('logoSelect' + shortenedUrl).value;
+                    var canvas = document.createElement('canvas');
+                    var context = canvas.getContext('2d');
+                    var qrImage = new Image();
+                    qrImage.crossOrigin = 'Anonymous';
+                    qrImage.onload = function() {
+                    canvas.width = 1000;
+                    canvas.height = 1000;
+                    context.drawImage(qrImage, 0, 0, 1000, 1000);
+                    if (logo) {
+                        var logoImage = new Image();
+                        logoImage.crossOrigin = 'Anonymous';
+                        logoImage.onload = function() {
+                        var logoSize = canvas.width * 0.25; // 25% do tamanho do QR Code
+                        var x = (canvas.width - logoSize) / 2;
+                        var y = (canvas.height - logoSize) / 2;
+                        context.drawImage(logoImage, x, y, logoSize, logoSize);
+                        var link = document.createElement('a');
+                        link.href = canvas.toDataURL();
+                        link.download = shortenedUrl + '_with_logo.png';
+                        link.click();
+                        };
+                        logoImage.src = logo;
+                    } else {
+                        var link = document.createElement('a');
+                        link.href = canvas.toDataURL();
+                        link.download = shortenedUrl + '.png';
+                        link.click();
+                    }
+                    };
+                    qrImage.src = qrCodeUrl;
+                    }
+                    </script>
+                </div>
+                </div>
+                </div>
+                </div>
+                <script>
+                function applyLogo(shortenedUrl) {
+                var logo = document.getElementById('logoSelect' + shortenedUrl).value;
+                var logoOverlay = document.getElementById('logoOverlay' + shortenedUrl);
+                if (logo) {
+                logoOverlay.src = logo;
+                logoOverlay.style.display = 'block';
+                } else {
+                logoOverlay.style.display = 'none';
+                }
+                }
+                </script>
+            </td>
+            <td data-label='Link Original com UTM' class='col-lg-4'>
+                <a href='" . htmlspecialchars($row['long_url']) . "' target='_blank' class='link-dark' data-bs-toggle='tooltip' title='Copiar'>
+                " . htmlspecialchars($row['long_url']) . "
+                </a>
+                <br><i class='bi bi-clipboard copy-icon' data-bs-toggle='tooltip' title='Copiar' onclick='copyToClipboard(this, \"" . htmlspecialchars($row['long_url']) . "\")'></i>
+            </td>
+            <td data-label='Link Encurtado' class='align-middle'>
+                <a href='/utm/" . $row['shortened_url'] . "' target='_blank' class='link-dark' data-bs-toggle='tooltip' title='Copiar'>
+                https://salesprime.com.br/utm/" . $row['shortened_url'] . "
+                </a>
+                <br><i class='bi bi-clipboard copy-icon' data-bs-toggle='tooltip' title='Copiar' onclick='copyToClipboard(this, \"https://salesprime.com.br/utm/" . $row['shortened_url'] . "\")'></i>
+            </td>";
+                        if (isset($_SESSION['username'])) {
+                            echo "
+            <td data-label='Clicks' class='text-center align-middle'>" . ($row['clicks'] ?? 0) . "</td>
+            <td data-label='Status' class='text-center align-middle'>
+                <button class='btn btn-sm toggle-status-btn' data-id='" . $row['id'] . "' data-status='" . $row['is_enabled'] . "' title='" . ($row['is_enabled'] ? 'Desabilitar' : 'Habilitar') . "'>
+                    <i class='bi " . ($row['is_enabled'] ? 'bi-toggle-on text-success' : 'bi-toggle-off text-danger') . "'></i>
+                </button>
+            </td>
+            <td data-label='Excluir' class='text-center align-middle'>
+                <button class='btn btn-danger btn-sm delete-btn' data-id='" . $row['id'] . "'>
+                <i class='bi bi-trash'></i>
+                </button>
+            </td>
+            <td data-label='Data da UTM' class='text-center align-middle'>" . $formattedDate . "</td>
+            <td data-label='Comentário' class='align-middle'>" . htmlspecialchars($row['comment'] ?? '') . "</td>
+            <td data-label='Usuário' class='text-center align-middle'>" . htmlspecialchars($row['username']) . "</td>";
+                        }
+                        echo "</tr>";
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
     </div>
     <?php if ($showModal): ?>
         <script>
@@ -1024,7 +1111,6 @@ if (isset($_SESSION['error']) || isset($_SESSION['success'])) {
             });
 
             function updateCampaignValue() {
-                if (!utmCampaignInput) return; // elemento não existe nesta página
                 const selectedSelect = Array.from(selects).find(select => select.value && select.value !== 'Selecione...');
                 if (selectedSelect && selectedSelect.value !== 'Selecione...') {
                     utmCampaignInput.value = `[TO][${selectedProfile}][${selectedSelect.value}]`;
