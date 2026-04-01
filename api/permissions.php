@@ -20,6 +20,9 @@ if (!$_SESSION['is_admin']) {
 }
 
 $action = $_POST['action'] ?? $_GET['action'] ?? '';
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && empty($action)) {
+    $action = 'list';
+}
 $currentAdmin = $_SESSION['username'];
 
 try {
